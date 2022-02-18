@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/postnet</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">none</property>
+
+        <property name="c3p0.acquire_increment">1</property>
+        <property name="c3p0.idle_test_period">100</property>
+        <property name="c3p0.max_size">100</property>
+        <property name="c3p0.max_statements">0</property>
+        <property name="c3p0.min_size">10</property>
+        <property name="c3p0.timeout">100</property>
+
+        <mapping class="by.academy.it.pojo.User"/>
+        <mapping class="by.academy.it.pojo.UserJob"/>
+        <mapping class="by.academy.it.pojo.UserDetails"/>
+    </session-factory>
+</hibernate-configuration>

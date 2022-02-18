@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>postnet</artifactId>
+        <groupId>by.academy.it</groupId>
+        <version>1.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>data</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.7.1</version>
+                <executions>
+                    <execution>
+                        <id>create_database</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                        <configuration>
+                            <url>jdbc:mysql://localhost:3306/postnet?createDatabaseIfNotExist=true</url>
+                            <username>root</username>
+                            <password>root</password>
+                            <driver>com.mysql.cj.jdbc.Driver</driver>
+                            <changeLogFile>src/main/resources/changelog.postnet.xml</changeLogFile>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>create_test_database</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                        <configuration>
+                            <url>jdbc:mysql://localhost:3306/postnet-test?createDatabaseIfNotExist=true</url>
+                            <username>root</username>
+                            <password>root</password>
+                            <driver>com.mysql.cj.jdbc.Driver</driver>
+                            <changeLogFile>src/main/resources/changelog.postnet.xml</changeLogFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

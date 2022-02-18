@@ -1,0 +1,54 @@
+html, body{
+	margin-left:15px; margin-right:15px;
+	padding:0px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #DCDCDC;
+    background-image:url(../image/belpost-bw.jpg);
+}
+
+.logout-button {
+    border: 1px solid #666;
+    border-radius: 5px;
+    padding: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF;
+    width: 170px;
+    padding: 5px 10px;
+
+    margin-bottom: 5px;
+    background: #87CEFA
+}
+
+table {
+	border-collapse:collapse;
+	border-bottom:1px solid gray;
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
+	width:72%;
+}
+
+th {
+	border-bottom:1px solid gray;
+	background:none repeat scroll 0 0 #87CEFA;
+	padding:10px;
+	color: #FFFFFF;
+}
+
+tr {
+	border-top:1px solid gray;
+	text-align:center;
+}
+
+tr:nth-child(even) {background: #FFFFFF}
+tr:nth-child(odd) {background: #F8F8FF}
+
+#wrapper {width: 100%; margin-top: 0px; }
+#header {width: 70%; background: #87CEFA; margin-top: 0px; padding:15px 0px 15px 15px;}
+#header h2 {width: 100%; margin:auto; color: #FFFFFF;}
+#container {width: 100%; margin:auto}
+#container h3 {color: #000;}
+#container #content {margin-top: 20px;}
+
