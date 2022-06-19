@@ -5,8 +5,8 @@ html, body{
 }
 
 body {
-    background: #DCDCDC;
-    background-image:url(../image/belpost-bw.jpg);
+	background:url(../image/belpost-bw.jpg) no-repeat;
+	background-size: 100%;
 }
 
 .logout-button {
