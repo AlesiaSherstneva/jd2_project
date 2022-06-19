@@ -35,4 +35,5 @@
 <p>Приложение устанавливается на Tomcat-9, разворачивается в контекстном пути http://localhost:8080/postnet</p>
 <p>Использованные технологии: Java 11, Maven, Tomcat, Liquibase, Hibernate, JDBC, Spring MVC, Spring Security,
 MySQL, Lombok, немного HTML, CSS и JS.</p>
+
 ![img.png](img.png)
