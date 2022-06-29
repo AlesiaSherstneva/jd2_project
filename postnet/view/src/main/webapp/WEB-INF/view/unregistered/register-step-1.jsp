@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="unreg-header.jsp"/>
+    <%--@elvariable id="user" type="by.academy.it.pojo.User"--%>
     <form:form class="postcard" accept-charset="UTF-8"
         action="${pageContext.request.contextPath}/register-step-2"
         modelAttribute="user" method="POST">
@@ -34,10 +35,12 @@
         одну строчную букву и одну цифру </i><br>
         <form:input path="password" type="password" id="pass" placeholder="Придумай пароль"/>
         <div style="margin-bottom: 5px">
-            <input type="checkbox" onclick="show()"/>Показать пароль
+            <label>
+                <input type="checkbox" onclick="show()"/>
+            </label>Показать пароль
                 <script type="text/javascript">
                     function show() {
-                        var x = document.getElementById("pass");
+                        const x = document.getElementById("pass");
                         if (x.type === "password") {
                         x.type = "text";
                         } else {
