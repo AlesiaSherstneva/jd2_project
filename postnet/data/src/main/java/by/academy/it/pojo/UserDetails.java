@@ -21,7 +21,7 @@ public class UserDetails implements Serializable {
     @Column(name = "user_details_id")
     private Integer id;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "Дата должна быть меньше текущей")
     @Temporal(TemporalType.DATE)
     @NotNull(message = "Это поле не может быть пустым")
@@ -33,5 +33,4 @@ public class UserDetails implements Serializable {
 
     @Column(name = "hobby")
     private String hobby;
-
 }
