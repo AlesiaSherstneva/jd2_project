@@ -124,6 +124,7 @@ public class Postoffices {
         postoffices.put("Минск-134", "220134");
         postoffices.put("Минск-136", "220136");
         postoffices.put("Минск-137", "220137");
+        postoffices.put("Минск-138", "220138");
         postoffices.put("Минск-140", "220140");
         postoffices.put("Минск-141", "220141");
         postoffices.put("Минск Бизнес-почта 2", "220202");
