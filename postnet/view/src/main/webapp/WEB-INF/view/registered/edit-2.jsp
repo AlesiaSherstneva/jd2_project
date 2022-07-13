@@ -13,6 +13,7 @@
 
     Отделение связи:
     <form:select path="postoffice">
+        <option disabled selected value>-выбери ОПС-</option>
         <form:options items="<%= new Postoffices().getPostoffices() %>"/>
         <form:errors path="postoffice" cssClass="error"/>
     </form:select>
