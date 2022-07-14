@@ -1,7 +1,6 @@
 package by.academy.it.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +22,11 @@ import java.beans.PropertyVetoException;
 @PropertySource("classpath:persistence.properties")
 public class SpringConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private Environment environment;
+    private final Environment environment;
+
+    public SpringConfig(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public ViewResolver viewResolver() {
@@ -54,6 +56,7 @@ public class SpringConfig implements WebMvcConfigurer {
 
     private int getIntProperty(String stringProperty) {
         String value = environment.getProperty(stringProperty);
+        assert value != null;
         return Integer.parseInt(value);
     }
 
