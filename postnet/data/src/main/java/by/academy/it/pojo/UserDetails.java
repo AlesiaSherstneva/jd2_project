@@ -15,7 +15,6 @@ import java.util.Date;
 @Entity
 @Table(name = "user_details")
 public class UserDetails implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_details_id")
