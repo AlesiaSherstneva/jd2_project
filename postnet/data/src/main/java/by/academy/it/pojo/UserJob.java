@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "user_job")
 public class UserJob implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_job_id")
