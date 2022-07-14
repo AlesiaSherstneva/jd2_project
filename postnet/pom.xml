@@ -18,8 +18,8 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.3.13</spring.version>
-        <springsecurity.version>5.6.0</springsecurity.version>
+        <spring.version>5.3.20</spring.version>
+        <springsecurity.version>5.7.1</springsecurity.version>
     </properties>
 
     <dependencies>
@@ -47,12 +47,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.6.5.Final</version>
+            <version>5.6.8.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.2.1.Final</version>
+            <!--suppress MavenPackageUpdate -->
+            <version>6.2.3.Final</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
