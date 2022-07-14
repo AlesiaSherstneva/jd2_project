@@ -27,7 +27,7 @@ public interface UserDao {
 
     void updateUserDetails(UserDetails userDetails);
 
-    public void updateUserStatus(Byte enabled, Integer id);
+    void updateUserStatus(Byte enabled, Integer id);
 
-    public void deleteUser(Integer id);
+    void deleteUser(Integer id);
 }
