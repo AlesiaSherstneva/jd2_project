@@ -20,7 +20,6 @@ public class UserDaoImpl implements UserDao {
     SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
     Session session;
 
-
     @Override
     public void setUser(User user) {
         session = sessionFactory.openSession();
