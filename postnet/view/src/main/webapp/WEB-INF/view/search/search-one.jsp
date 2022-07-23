@@ -17,49 +17,30 @@
         <c:set var="gender" value="${user.gender}"/>
         <c:choose>
             <c:when test="${gender == 'женский'}">
-                <div class="woman-postcard" accept-charset="UTF-8" modelAttribute="user">
-                    <h1>${user.name} ${user.surname}</h1>
-                    <h2><i>${user.userJob.postoffice}, ${user.userJob.role}</i></h1>
-
-                    <sec:authorize access="hasAnyAuthority('ADMIN', 'REGISTERED')">
-
-                    <hr/>
-                    <h3><b>Дата рождения:</b> ${user.userDetails.birthday}</h3>
-                    <h3><b>О себе:</b> ${user.userDetails.about}</h3>
-                    <h3><b>Хобби:</b> ${user.userDetails.hobby}</h3>
-
-                    </sec:authorize>
-
-                    <div class="confirm" style="margin-top: 20px; margin-left: 20px;">
-                        <a href="#" onclick="history.back();return false;"
-                            class="btn btn-primary" role="button" aria-pressed="true">Назад</a>
-                        <a href="${pageContext.request.contextPath}"
-                            class="btn btn-primary" role="button" aria-pressed="true">На главную страницу</a>
-                    </div>
-                </div>
+                <div class="woman-postcard" accept-charset="UTF-8">
             </c:when>
             <c:otherwise>
-                <div class="man-postcard" accept-charset="UTF-8" modelAttribute="user">
-                    <h1>${user.name} ${user.surname}</h1>
-                    <h2><i>${user.userJob.postoffice}, ${user.userJob.role}</i></h1>
-
-                    <sec:authorize access="hasAnyAuthority('ADMIN', 'REGISTERED')">
-
-                    <hr/>
-                    <h2><b>Дата рождения:</b> ${user.userDetails.birthday}</h2>
-                    <h3><b>О себе:</b> ${user.userDetails.about}</h3>
-                    <h3><b>Хобби:</b> ${user.userDetails.hobby}</h3>
-
-                    </sec:authorize>
-
-                    <div class="confirm" style="margin-top: 20px; margin-left: 20px;">
-                        <a href="#" onclick="history.back();return false;"
-                            class="btn btn-primary" role="button" aria-pressed="true">Назад</a>
-                        <a href="${pageContext.request.contextPath}"
-                            class="btn btn-primary" role="button" aria-pressed="true">На главную страницу</a>
-                    </div>
-                </div>
+                <div class="man-postcard" accept-charset="UTF-8">
             </c:otherwise>
         </c:choose>
+            <h1>${user.name} ${user.surname}</h1>
+            <h2><i>${user.userJob.postoffice}, ${user.userJob.role}</i></h2>
+
+            <sec:authorize access="hasAnyAuthority('ADMIN', 'REGISTERED')">
+
+            <hr/>
+            <h3><b>Дата рождения:</b> ${user.userDetails.birthday}</h3>
+            <h3><b>О себе:</b> ${user.userDetails.about}</h3>
+            <h3><b>Хобби:</b> ${user.userDetails.hobby}</h3>
+
+            </sec:authorize>
+
+            <div class="confirm" style="margin-top: 20px; margin-left: 20px;">
+                <a href="#" onclick="history.back();return false;"
+                    class="btn btn-primary" role="button" aria-pressed="true">Назад</a>
+                <a href="${pageContext.request.contextPath}"
+                    class="btn btn-primary" role="button" aria-pressed="true">На главную страницу</a>
+            </div>
+        </div>
     </body>
 </html>
