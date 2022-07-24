@@ -11,8 +11,12 @@ import java.security.Principal;
 @Controller
 public class HomeController {
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public HomeController(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @GetMapping("/login")
     public String login() {
