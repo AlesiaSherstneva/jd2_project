@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public AdminController(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @GetMapping("/ban")
     public String banUser(@RequestParam("userId") int userId) {
