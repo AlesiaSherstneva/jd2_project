@@ -22,11 +22,15 @@ import java.security.Principal;
 @Controller
 public class ProfileController {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
+
+    private final UniqueEmailValidator validator;
 
     @Autowired
-    private UniqueEmailValidator validator;
+    public ProfileController(UserDao userDao, UniqueEmailValidator validator) {
+        this.userDao = userDao;
+        this.validator = validator;
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
