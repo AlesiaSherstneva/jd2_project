@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
@@ -19,13 +22,17 @@ import javax.validation.Valid;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserDao userDao;
+    private final UserDao userDao;
 
-    @Autowired
-    private UniqueEmailValidator validator;
+    private final UniqueEmailValidator validator;
 
     User registeredUser = new User();
+
+    @Autowired
+    public UserController(UserDao userDao, UniqueEmailValidator validator) {
+        this.userDao = userDao;
+        this.validator = validator;
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
