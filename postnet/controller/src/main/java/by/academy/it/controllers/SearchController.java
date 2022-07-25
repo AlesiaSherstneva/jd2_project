@@ -17,8 +17,12 @@ import java.util.List;
 @RequestMapping("/users")
 public class SearchController {
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public SearchController(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @GetMapping(value = "/{page}")
     public String showUsers(@PathVariable int page, @RequestParam String searchString, Model model) {
