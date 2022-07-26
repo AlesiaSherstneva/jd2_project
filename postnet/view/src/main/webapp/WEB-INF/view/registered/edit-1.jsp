@@ -5,6 +5,7 @@
     <form:form class="postcard" accept-charset="UTF-8"
         action="${pageContext.request.contextPath}/confirm-1"
         modelAttribute="user" method="POST">
+        <input type="hidden" name="_method" value="PATCH">
 
         <h3>Редактирование</h3>
         <form:input path="id" type="hidden"/>
@@ -36,7 +37,6 @@
         одну строчную букву и одну цифру </i><br>
         <form:input path="password" type="password" id="pass"/>
         <div style="margin-bottom: 5px">
-            <input type="hidden" name="_method" value="PATCH">
             <label><input type="checkbox" onclick="show()"/>Показать пароль</label>
             <script type="text/javascript">
                 function show() {
