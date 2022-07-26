@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <changeSet id="1" author="asherstneva">
+    <changeSet id="1" author="a.sherstneva">
         <sql>
             CREATE TABLE IF NOT EXISTS user_job (
             user_job_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -16,7 +16,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="2" author="asherstneva">
+    <changeSet id="2" author="a.sherstneva">
         <sql>
             CREATE TABLE IF NOT EXISTS user_details (
             user_details_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -27,7 +27,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="3" author="asherstneva">
+    <changeSet id="3" author="a.sherstneva">
         <sql>
             CREATE TABLE IF NOT EXISTS user (
             id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -43,7 +43,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="4" author="asherstneva">
+    <changeSet id="4" author="a.sherstneva">
         <sql>
             INSERT INTO user (name, surname, gender, email, password, authority) VALUES
             ("Елена", "Ерёмина", "женский", "lenochka@gmail.com", "{noop}Lenochka2002", "REGISTERED"),
@@ -54,7 +54,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="5" author="asherstneva">
+    <changeSet id="5" author="a.sherstneva">
         <sql>
             INSERT INTO user_job (postoffice, role) VALUES
             ("Минск-125", "оператор связи"),
@@ -65,7 +65,7 @@
         </sql>
     </changeSet>
 
-    <changeSet id="6" author="asherstneva">
+    <changeSet id="6" author="a.sherstneva">
         <sql>
             INSERT INTO user_details (birthday, about, hobby) VALUES
             ("2002-05-14", "Меня сложно найти, легко потерять и невозможно забыть!", "Играю на нервах"),
