@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="reg-header.jsp"/>
     <form:form class="postcard" accept-charset="UTF-8" action="${pageContext.request.contextPath}/confirm-3"
             modelAttribute="userdetails" method="POST">
+            <input type="hidden" name="_method" value="PATCH">
 
             <h3>Редактирование</h3>
             <form:input path="id" type="hidden"/>
