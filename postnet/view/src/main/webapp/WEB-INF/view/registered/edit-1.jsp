@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="reg-header.jsp"/>
@@ -36,10 +36,11 @@
         одну строчную букву и одну цифру </i><br>
         <form:input path="password" type="password" id="pass"/>
         <div style="margin-bottom: 5px">
-            <input type="checkbox" onclick="show()"/>Показать пароль
+            <input type="hidden" name="_method" value="PATCH">
+            <label><input type="checkbox" onclick="show()"/>Показать пароль</label>
             <script type="text/javascript">
                 function show() {
-                    var x = document.getElementById("pass");
+                    let x = document.getElementById("pass");
                     if (x.type === "password") {
                     x.type = "text";
                     } else {
