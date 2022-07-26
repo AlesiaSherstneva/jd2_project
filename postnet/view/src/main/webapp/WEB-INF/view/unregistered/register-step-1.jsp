@@ -35,19 +35,7 @@
         одну строчную букву и одну цифру </i><br>
         <form:input path="password" type="password" id="pass" placeholder="Придумай пароль"/>
         <div style="margin-bottom: 5px">
-            <label>
-                <input type="checkbox" onclick="show()"/>
-            </label>Показать пароль
-                <script type="text/javascript">
-                    function show() {
-                        const x = document.getElementById("pass");
-                        if (x.type === "password") {
-                        x.type = "text";
-                        } else {
-                        x.type = "password";
-                        }
-                    }
-                </script>
+            <label><input type="checkbox" onclick="show()"/>Показать пароль</label>
             </div>
         <form:errors path="password" cssClass="error"/>
         <br><br>

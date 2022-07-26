@@ -13,6 +13,14 @@
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/login.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/show-password.js"></script>
+		<style>
+			body {
+				background:url(${pageContext.request.contextPath}/resources/image/belpost.jpg) no-repeat;
+				background-size: 100%;
+				font-family:Helvetica,Arial, sans-serif;
+			}
+		</style>
     </head>
     <body>
         <div class="hello" style="margin-top: 180px; margin-left: 40px; color: #FFFFFF;font-family: Verdana, Arial, Helvetica, sans-serif;">
@@ -55,18 +63,8 @@
         					    <input type="password" name="password" placeholder="Введи пароль"
         					        class="form-control" id="pass">
         				    </div>
-        				    <div style="margin-bottom: 15px">
-        					    <input type="checkbox" onclick="show()">Показать пароль
-        					    <script type="text/javascript">
-                                    function show() {
-                                        var x = document.getElementById("pass");
-                                        if (x.type === "password") {
-                                            x.type = "text";
-                                        } else {
-                                            x.type = "password";
-                                        }
-                                    }
-                                </script>
+        				    <div style="margin-bottom: 5px">
+								<label><input type="checkbox" onclick="show()"/>Показать пароль</label>
                             </div>
         				    <div style="margin-top: 10px" class="form-group">
         				        <div class="col-sm-6 controls">

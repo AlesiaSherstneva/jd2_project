@@ -38,16 +38,6 @@
         <form:input path="password" type="password" id="pass"/>
         <div style="margin-bottom: 5px">
             <label><input type="checkbox" onclick="show()"/>Показать пароль</label>
-            <script type="text/javascript">
-                function show() {
-                    let x = document.getElementById("pass");
-                    if (x.type === "password") {
-                    x.type = "text";
-                    } else {
-                    x.type = "password";
-                    }
-                }
-            </script>
         </div>
         <form:errors path="password" cssClass="error"/>
         <br><br>
