@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -47,7 +44,7 @@ public class ProfileController {
         return "/registered/edit-1";
     }
 
-    @PostMapping("/confirm-1")
+    @PatchMapping("/confirm-1")
     public String firstConfirm(@Valid @ModelAttribute("user") User user,
                                BindingResult bindingResult,
                                Principal principal) {
@@ -72,7 +69,7 @@ public class ProfileController {
         return "/registered/edit-2";
     }
 
-    @PostMapping("/confirm-2")
+    @PatchMapping("/confirm-2")
     public String secondConfirm(@Valid @ModelAttribute("userjob") UserJob userJob,
                                BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
@@ -89,7 +86,7 @@ public class ProfileController {
         return "/registered/edit-3";
     }
 
-    @PostMapping("/confirm-3")
+    @PatchMapping("/confirm-3")
     public String thirdConfirm(@Valid @ModelAttribute("userdetails") UserDetails userDetails,
                                 BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
