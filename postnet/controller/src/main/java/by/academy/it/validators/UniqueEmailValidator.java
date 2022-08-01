@@ -11,8 +11,12 @@ import java.util.List;
 @Component
 public class UniqueEmailValidator {
 
+    final UserDao userDao;
+
     @Autowired
-    UserDao userDao;
+    public UniqueEmailValidator(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     public boolean validateEmail(String email) {
         List<User> users = userDao.getAllUsers();
