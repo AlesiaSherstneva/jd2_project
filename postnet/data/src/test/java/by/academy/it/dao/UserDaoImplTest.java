@@ -1,4 +1,3 @@
-
 package by.academy.it.dao;
 
 import by.academy.it.pojo.User;
@@ -17,7 +16,6 @@ import java.sql.Statement;
 import java.util.List;
 
 import static org.junit.Assert.*;
-
 
 public class UserDaoImplTest extends HibernateUtilTest {
 
