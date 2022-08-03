@@ -102,12 +102,9 @@ public class UserDaoImplTest extends HibernateUtilTest {
     @Test
     public void setUserTest() {
         testUserDao.setUser(testUser);
-/*        jdbcTemplate.update("INSERT INTO user (name, surname, gender, email, password) VALUES (?, ?, ?, ?, ?)",
-                testUser.getName(), testUser.getSurname(),testUser.getGender(), testUser.getEmail(), testUser.getPassword());*/
         User gotUser = testUserDao.getUserByEmail("test@test.test");
         assertEquals("testName", gotUser.getName());
         testUserDao.deleteUser(5);
-        /*        jdbcTemplate.update("DELETE FROM user WHERE id = 1");*/
     }
 
     @Test
