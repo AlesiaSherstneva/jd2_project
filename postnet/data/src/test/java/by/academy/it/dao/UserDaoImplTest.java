@@ -8,15 +8,18 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
+@Component
 public class UserDaoImplTest extends HibernateUtilTest {
 
     UserDaoImpl testUserDao = new UserDaoImpl();
@@ -91,8 +94,7 @@ public class UserDaoImplTest extends HibernateUtilTest {
             statement.executeUpdate(query);
 
             connection.close();
-        } catch (
-                SQLException exception) {
+        } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
@@ -100,9 +102,12 @@ public class UserDaoImplTest extends HibernateUtilTest {
     @Test
     public void setUserTest() {
         testUserDao.setUser(testUser);
+/*        jdbcTemplate.update("INSERT INTO user (name, surname, gender, email, password) VALUES (?, ?, ?, ?, ?)",
+                testUser.getName(), testUser.getSurname(),testUser.getGender(), testUser.getEmail(), testUser.getPassword());*/
         User gotUser = testUserDao.getUserByEmail("test@test.test");
         assertEquals("testName", gotUser.getName());
         testUserDao.deleteUser(5);
+        /*        jdbcTemplate.update("DELETE FROM user WHERE id = 1");*/
     }
 
     @Test
@@ -125,7 +130,7 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @Test
     public void searchUsersTest() {
-        List<User> users = testUserDao.searchUsers("Test");
+        List<User> users = new ArrayList<>(testUserDao.searchUsers("Test"));
         assertEquals(2, users.size());
 
         users = testUserDao.searchUsers("БИЗНЕС");
@@ -137,7 +142,7 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @Test
     public void pageUsersTest() {
-        List<User> users = testUserDao.pageUsers("", 0);
+        List<User> users = new ArrayList<>(testUserDao.pageUsers("", 0));
         assertEquals(3, users.size());
 
         users = testUserDao.pageUsers("Test", 1);
