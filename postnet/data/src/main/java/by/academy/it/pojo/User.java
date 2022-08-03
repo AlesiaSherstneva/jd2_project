@@ -2,14 +2,19 @@ package by.academy.it.pojo;
 
 import by.academy.it.validators.Password;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
@@ -67,4 +72,12 @@ public class User implements Serializable {
 
     @Column(name = "enabled")
     private Byte enabled = 1;
+
+    public User(String name, String surname, String gender, String email, String password) {
+        this.name = name;
+        this.surname = surname;
+        this.gender = gender;
+        this.email = email;
+        this.password = password;
+    }
 }

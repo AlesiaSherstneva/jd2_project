@@ -1,6 +1,7 @@
 package by.academy.it.pojo;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "user_job")
 public class UserJob implements Serializable {
@@ -24,4 +26,9 @@ public class UserJob implements Serializable {
     @NotNull(message = "Это поле не может быть пустым")
     @Column(name = "role")
     private String role;
+
+    public UserJob(String postoffice, String role) {
+        this.postoffice = postoffice;
+        this.role = role;
+    }
 }

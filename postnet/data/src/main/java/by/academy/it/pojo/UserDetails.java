@@ -1,6 +1,7 @@
 package by.academy.it.pojo;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,6 +13,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "user_details")
 public class UserDetails implements Serializable {
@@ -32,4 +34,10 @@ public class UserDetails implements Serializable {
 
     @Column(name = "hobby")
     private String hobby;
+
+    public UserDetails(Date birthday, String about, String hobby) {
+        this.birthday = birthday;
+        this.about = about;
+        this.hobby = hobby;
+    }
 }
