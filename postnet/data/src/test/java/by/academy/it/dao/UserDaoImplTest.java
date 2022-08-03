@@ -23,29 +23,22 @@ import static org.junit.Assert.*;
 public class UserDaoImplTest extends HibernateUtilTest {
 
     UserDaoImpl testUserDao = new UserDaoImpl();
-    User testUser = new User();
-    UserJob testUserJob = new UserJob();
-    UserDetails testUserDetails = new UserDetails();
+    User testUser;
+    UserJob testUserJob;
+    UserDetails testUserDetails;
 
     @Before
     public void setUp() {
         testUserDao.sessionFactory = HibernateUtilTest.sessionFactory;
 
-        testUser.setEmail("test@test.test");
-        testUser.setPassword("Test1234");
-        testUser.setName("testName");
-        testUser.setSurname("testSurname");
-        testUser.setGender("женский");
+        testUser = new User("testName", "testSurname",
+                "женский", "test@test.test", "Test1234");
 
-        testUserJob.setPostoffice("Минск-50, Главпочтамт");
-        testUserJob.setRole("почтальон");
+        testUserJob = new UserJob("Минск-50, Главпочтамт", "почтальон");
         testUser.setUserJob(testUserJob);
 
-        testUserDetails.setBirthday(new java.sql.Date(594667996870L));
-        testUserDetails.setAbout("test user");
-        testUserDetails.setHobby("testing");
+        testUserDetails = new UserDetails(new java.sql.Date(594667996870L), "test user", "testing");
         testUser.setUserDetails(testUserDetails);
-
     }
 
     @BeforeClass
