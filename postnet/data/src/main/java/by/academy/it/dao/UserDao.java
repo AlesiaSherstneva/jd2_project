@@ -4,7 +4,6 @@ import by.academy.it.pojo.User;
 import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
 
-
 import java.util.List;
 
 public interface UserDao {
