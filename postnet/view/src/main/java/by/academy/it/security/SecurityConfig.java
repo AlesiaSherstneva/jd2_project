@@ -15,8 +15,12 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final DataSource securityDataSource;
+
     @Autowired
-    private DataSource securityDataSource;
+    public SecurityConfig(DataSource securityDataSource) {
+        this.securityDataSource = securityDataSource;
+    }
 
     @Autowired
     public void configureInMemoryAuthentication(AuthenticationManagerBuilder auth) throws Exception {
@@ -50,7 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout().permitAll();
-        /*                .logoutSuccessUrl("/start");*/
 
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
