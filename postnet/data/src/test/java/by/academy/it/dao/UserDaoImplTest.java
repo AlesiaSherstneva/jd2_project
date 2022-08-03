@@ -8,18 +8,15 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-@Component
 public class UserDaoImplTest extends HibernateUtilTest {
 
     UserDaoImpl testUserDao = new UserDaoImpl();
@@ -27,12 +24,23 @@ public class UserDaoImplTest extends HibernateUtilTest {
     UserJob testUserJob;
     UserDetails testUserDetails;
 
+    static JdbcTemplate jdbcTemplate;
+
+    static {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/postnet-test");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
+        jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+
     @Before
     public void setUp() {
         testUserDao.sessionFactory = HibernateUtilTest.sessionFactory;
 
-        testUser = new User("testName", "testSurname",
-                "женский", "test@test.test", "Test1234");
+        testUser = new User("testName", "testSurname", "женский", "test@test.test", "Test1234");
 
         testUserJob = new UserJob("Минск-50, Главпочтамт", "почтальон");
         testUser.setUserJob(testUserJob);
@@ -43,61 +51,41 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @BeforeClass
     public static void beforeClass() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException exception) {
-            exception.printStackTrace();
-        }
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/postnet-test",
-                    "root", "root");
-            Statement statement = connection.createStatement();
+        jdbcTemplate.execute("TRUNCATE TABLE user");
+        jdbcTemplate.execute("TRUNCATE TABLE user_job");
+        jdbcTemplate.execute("TRUNCATE TABLE user_details");
 
-            String query = "SET FOREIGN_KEY_CHECKS = 0";
-            statement.executeUpdate(query);
-            query = "TRUNCATE TABLE user";
-            statement.executeUpdate(query);
-            query = "TRUNCATE TABLE user_job";
-            statement.executeUpdate(query);
-            query = "TRUNCATE TABLE user_details";
-            statement.executeUpdate(query);
-            query = "SET FOREIGN_KEY_CHECKS = 1";
-            statement.executeUpdate(query);
+        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
 
-            query = "INSERT IGNORE INTO user (email, name, gender, surname, password) VALUES " +
-                    "('test1@test.test', 'TestName1', 'женский', 'TestSurname1', 'Test1234'), " +
-                    "('test2@test.test', 'TestName2', 'мужской', 'TestSurname2', 'Test1234'), " +
-                    "('test3@test.test', 'ТестИмя3', 'женский', 'ТестФамилия3', 'Test1234'), " +
-                    "('test4@test.test', 'ТестИмя4', 'мужской', 'ТестФамилия4', 'Test1234') ";
-            statement.executeUpdate(query);
+        jdbcTemplate.update("INSERT IGNORE INTO user (email, name, gender, surname, password) VALUES " +
+                "('test1@test.test', 'TestName1', 'женский', 'TestSurname1', 'Test1234'), " +
+                "('test2@test.test', 'TestName2', 'мужской', 'TestSurname2', 'Test1234'), " +
+                "('test3@test.test', 'ТестИмя3', 'женский', 'ТестФамилия3', 'Test1234'), " +
+                "('test4@test.test', 'ТестИмя4', 'мужской', 'ТестФамилия4', 'Test1234') ");
 
-            query = "INSERT IGNORE INTO user_job (postoffice, role) VALUES " +
-                    "('Минск-1', 'почтальон'), " +
-                    "('Минск-2', 'оператор связи'), " +
-                    "('Минск Пункт выдачи 4', 'специалист по почтовой деятельности'), " +
-                    "('Минск Бизнес-почта 120', 'специалист по почтовой деятельности') ";
-            statement.executeUpdate(query);
+        jdbcTemplate.update("INSERT IGNORE INTO user_job (postoffice, role) VALUES " +
+                "('Минск-1', 'почтальон'), " +
+                "('Минск-2', 'оператор связи'), " +
+                "('Минск Пункт выдачи 4', 'специалист по почтовой деятельности'), " +
+                "('Минск Бизнес-почта 120', 'специалист по почтовой деятельности') ");
 
-            query = "INSERT IGNORE INTO user_details (birthday, about, hobby) VALUES " +
-                    "('1984-01-18', 'testabout1', 'testhobby1'), " +
-                    "('1990-12-08', 'testabout2', 'testhobby2'), " +
-                    "('1989-05-31', 'testabout3', 'testhobby3'), " +
-                    "('2001-08-11', 'testabout4', 'testhobby4') ";
-            statement.executeUpdate(query);
-
-            connection.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
+        jdbcTemplate.update("INSERT IGNORE INTO user_details (birthday, about, hobby) VALUES " +
+                "('1984-01-18', 'testabout1', 'testhobby1'), " +
+                "('1990-12-08', 'testabout2', 'testhobby2'), " +
+                "('1989-05-31', 'testabout3', 'testhobby3'), " +
+                "('2001-08-11', 'testabout4', 'testhobby4') ");
     }
 
     @Test
     public void setUserTest() {
         testUserDao.setUser(testUser);
-        User gotUser = testUserDao.getUserByEmail("test@test.test");
+
+        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE email = ?",
+                new BeanPropertyRowMapper<>(User.class), "test@test.test");
+        assertNotNull(gotUser);
         assertEquals("testName", gotUser.getName());
-        testUserDao.deleteUser(5);
+
+        jdbcTemplate.update("DELETE FROM user WHERE id = ?", gotUser.getId());
     }
 
     @Test
@@ -141,12 +129,20 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @Test
     public void updateUserTest() {
-        User gotUser = testUserDao.getUser(1);
+        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?",
+                new BeanPropertyRowMapper<>(User.class), 1);
+        assertNotNull(gotUser);
+
         gotUser.setGender("мужской");
         testUserDao.updateUser(gotUser);
 
-        assertEquals("мужской", testUserDao.getUser(1).getGender());
+        gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?",
+                new BeanPropertyRowMapper<>(User.class), 1);
+        assertNotNull(gotUser);
+        assertEquals("мужской", gotUser.getGender());
     }
+
+    //TODO write wrapper
 
     @Test
     public void updateUserJobTest() {
@@ -191,32 +187,12 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @AfterClass
     public static void afterClass() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException exception) {
-            exception.printStackTrace();
-        }
-        Connection connection;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/postnet-test",
-                    "root", "root");
-            Statement statement = connection.createStatement();
+        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 0");
 
-            String query = "SET FOREIGN_KEY_CHECKS = 0";
-            statement.executeUpdate(query);
-            query = "TRUNCATE TABLE user";
-            statement.executeUpdate(query);
-            query = "TRUNCATE TABLE user_job";
-            statement.executeUpdate(query);
-            query = "TRUNCATE TABLE user_details";
-            statement.executeUpdate(query);
-            query = "SET FOREIGN_KEY_CHECKS = 1";
-            statement.executeUpdate(query);
+        jdbcTemplate.execute("TRUNCATE TABLE user");
+        jdbcTemplate.execute("TRUNCATE TABLE user_job");
+        jdbcTemplate.execute("TRUNCATE TABLE user_details");
 
-            connection.close();
-        } catch (
-                SQLException exception) {
-            exception.printStackTrace();
-        }
+        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
     }
 }
