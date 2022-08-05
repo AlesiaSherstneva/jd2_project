@@ -57,11 +57,11 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
         jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
 
-        jdbcTemplate.update("INSERT IGNORE INTO user (email, name, gender, surname, password) VALUES " +
-                "('test1@test.test', 'TestName1', 'женский', 'TestSurname1', 'Test1234'), " +
-                "('test2@test.test', 'TestName2', 'мужской', 'TestSurname2', 'Test1234'), " +
-                "('test3@test.test', 'ТестИмя3', 'женский', 'ТестФамилия3', 'Test1234'), " +
-                "('test4@test.test', 'ТестИмя4', 'мужской', 'ТестФамилия4', 'Test1234') ");
+        jdbcTemplate.update("INSERT IGNORE INTO user (name, surname, gender, email, password) VALUES " +
+                "('TestName1', 'TestSurname1', 'женский', 'test1@test.test', 'Test1234'), " +
+                "('TestName2', 'TestSurname2', 'мужской', 'test2@test.test', 'Test1234'), " +
+                "('ТестИмя3', 'ТестФамилия3', 'женский', 'test3@test.test', 'Test1234'), " +
+                "('ТестИмя4', 'ТестФамилия4', 'мужской', 'test4@test.test', 'Test1234') ");
 
         jdbcTemplate.update("INSERT IGNORE INTO user_job (postoffice, role) VALUES " +
                 "('Минск-1', 'почтальон'), " +
@@ -96,7 +96,7 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @Test
     public void getAllUsersTest() {
-        List<User> testUsers = testUserDao.getAllUsers();
+        List<User> testUsers = new ArrayList<>(testUserDao.getAllUsers());
         assertEquals(4, testUsers.size());
     }
 
@@ -141,8 +141,6 @@ public class UserDaoImplTest extends HibernateUtilTest {
         assertNotNull(gotUser);
         assertEquals("мужской", gotUser.getGender());
     }
-
-    //TODO write wrapper
 
     @Test
     public void updateUserJobTest() {
