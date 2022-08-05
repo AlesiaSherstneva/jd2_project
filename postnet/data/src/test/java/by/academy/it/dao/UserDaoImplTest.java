@@ -3,6 +3,7 @@ package by.academy.it.dao;
 import by.academy.it.pojo.User;
 import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
+import by.academy.it.pojo.UserMapper;
 import by.academy.it.util.HibernateUtilTest;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -129,8 +130,7 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @Test
     public void updateUserTest() {
-        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?",
-                new BeanPropertyRowMapper<>(User.class), 1);
+        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?", new UserMapper(), 1);
         assertNotNull(gotUser);
 
         gotUser.setGender("мужской");
