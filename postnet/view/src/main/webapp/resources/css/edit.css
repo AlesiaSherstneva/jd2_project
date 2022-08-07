@@ -3,9 +3,9 @@
 }
 
 body {
-    background:url(../image/belpost.jpg) no-repeat;
+    background: url(../image/belpost.jpg) no-repeat;
     background-size: 100%;
-    font-family:Helvetica,Arial sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 .postcard {
@@ -19,17 +19,17 @@ body {
 }
 
 .error {
-    color:red;
+    color: red;
 }
 
 .add-button {
-	border: 1px solid #666;
-	border-radius: 5px;
+    border: 1px solid #666;
+    border-radius: 5px;
     font-size: 14px;
-	font-weight: bold;
-	width: 120px;
-	padding: 5px 10px;
+    font-weight: bold;
+    width: 120px;
+    padding: 5px 10px;
 
-	margin-bottom: 5px;
-	background: #F0E68C
+    margin-bottom: 5px;
+    background: #F0E68C
 }
