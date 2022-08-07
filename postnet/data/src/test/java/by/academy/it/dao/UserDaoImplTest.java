@@ -25,7 +25,7 @@ public class UserDaoImplTest extends HibernateUtilTest {
     UserJob testUserJob;
     UserDetails testUserDetails;
 
-    static JdbcTemplate jdbcTemplate;
+    public static JdbcTemplate jdbcTemplate;
 
     static {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -132,12 +132,12 @@ public class UserDaoImplTest extends HibernateUtilTest {
     public void updateUserTest() {
         User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?", new UserMapper(), 1);
         assertNotNull(gotUser);
+        assertEquals("женский", gotUser.getGender());
 
         gotUser.setGender("мужской");
         testUserDao.updateUser(gotUser);
 
-        gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?",
-                new BeanPropertyRowMapper<>(User.class), 1);
+        gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?", new UserMapper(), 1);
         assertNotNull(gotUser);
         assertEquals("мужской", gotUser.getGender());
     }
