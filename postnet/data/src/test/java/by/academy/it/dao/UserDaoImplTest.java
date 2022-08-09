@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -173,13 +174,22 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @Test
     public void deleteUserTest() {
-        testUserDao.setUser(testUser);
+        jdbcTemplate.update("INSERT INTO User (name, surname, gender, email, password) VALUES (?, ?, ?, ?, ?)",
+                testUser.getName(), testUser.getSurname(), testUser.getGender(),
+                testUser.getEmail(), testUser.getPassword());
 
-        assertNotNull(testUserDao.getUser(6));
+        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE email = ?",
+                new UserMapper(), testUser.getEmail());
+        assertNotNull(gotUser);
 
-        testUserDao.deleteUser(6);
+        testUserDao.deleteUser(gotUser.getId());
 
-        assertNull(testUserDao.getUser(6));
+        try {
+            jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?", new UserMapper(), gotUser.getId());
+            fail("Expected EmptyResultDataAccessException");
+        } catch (EmptyResultDataAccessException exception) {
+            assertEquals("Incorrect result size: expected 1, actual 0", exception.getMessage());
+        }
     }
 
     @AfterClass
