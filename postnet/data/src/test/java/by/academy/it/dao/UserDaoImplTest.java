@@ -173,7 +173,6 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
     @Test
     public void deleteUserTest() {
-        testUser.setEmail("тест@тест.тест");
         testUserDao.setUser(testUser);
 
         assertNotNull(testUserDao.getUser(6));
