@@ -27,14 +27,14 @@ public class User implements Serializable {
 
     @NotNull(message = "Это поле не может быть пустым")
     @Size(min = 2, max = 15, message = "Введи от 2 до 15 символов")
-    @Pattern(regexp = "^[A-ZА-ЯЁ][a-zA-Zа-яА-ЯёЁ]+$",
+    @Pattern(regexp = "^[A-ZА-ЯЁ][a-zA-Zа-яА-ЯёЁ\\-]+$",
             message = "Имя должно начинаться с прописной буквы и состоять из строчных букв")
     @Column(name = "name")
     private String name;
 
     @NotNull(message = "Это поле не может быть пустым")
     @Size(min = 2, max = 20, message = "Введи от 2 до 20 символов")
-    @Pattern(regexp = "^[A-ZА-ЯЁ][a-zA-Zа-яА-ЯёЁ]+$",
+    @Pattern(regexp = "^[A-ZА-ЯЁ][a-zA-Zа-яА-ЯёЁ\\-]+$",
             message = "Фамилия должна начинаться с прописной буквы и состоять из строчных букв")
     @Column(name = "surname")
     private String surname;
