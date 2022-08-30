@@ -9,7 +9,7 @@ body {
 }
 
 .postcard, .man-postcard, .woman-postcard {
-    max-width: 525px;
+    max-width: 500px;
     margin: 240px 40px;
     padding: 20px;
     background: #FFFFFF;
