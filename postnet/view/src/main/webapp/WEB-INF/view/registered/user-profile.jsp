@@ -8,10 +8,11 @@
     <head>
         <title>ВОтделении</title>
         <link rel="stylesheet" type="text/css"
+              href="${pageContext.request.contextPath}/resources/css/postnet.css"/>
+        <link rel="stylesheet" type="text/css"
             href="${pageContext.request.contextPath}/resources/css/user-profile.css"/>
     </head>
     <body>
-    <%--@elvariable id="user" type="by.academy.it.pojo.User"--%>
         <c:set var="gender" value="${user.gender}"/>
         <c:choose>
             <c:when test="${gender == 'женский'}">
