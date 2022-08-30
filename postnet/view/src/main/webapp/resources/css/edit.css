@@ -1,35 +1,8 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    background: url(../image/belpost.jpg) no-repeat;
-    background-size: 100%;
-    font-family: Helvetica, Arial, sans-serif;
-}
-
 .postcard {
-    max-width: 525px;
-    margin: 240px 40px;
-    padding: 20px;
-    background: #FFFFFF;
-    border: 10px solid transparent;
-    border-image: 10 repeating-linear-gradient(135deg, #556B2F, #6B8E23 10px, transparent 10px, transparent 20px, #006400 20px, #228B22 30px, transparent 30px, transparent 40px);
-    color: #605756;
-}
-
-.error {
-    color: red;
+    border-image: 10 repeating-linear-gradient(135deg, #556B2F, #6B8E23 10px, transparent 10px, transparent 20px,
+    #006400 20px, #228B22 30px, transparent 30px, transparent 40px);
 }
 
 .add-button {
-    border: 1px solid #666;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    width: 120px;
-    padding: 5px 10px;
-
-    margin-bottom: 5px;
     background: #F0E68C
 }
