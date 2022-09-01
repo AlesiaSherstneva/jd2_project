@@ -1,7 +1,13 @@
 body {
     background: #4169E1 url(../image/belpost.jpg) no-repeat;
     background-size: 100%;
-    font-family: Helvetica, Arial sans-serif;
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+}
+
+.hello {
+    margin-top: 200px;
+    margin-left: 20px;
+    color: #FFFFFF;
 }
 
 .postcard, .man-postcard, .woman-postcard {
