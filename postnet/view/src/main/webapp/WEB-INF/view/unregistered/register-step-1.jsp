@@ -1,8 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<jsp:include page="unreg-header.jsp"/>
-    <%--@elvariable id="user" type="by.academy.it.pojo.User"--%>
+<jsp:include page="../header.jsp"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/register.css"/>
+<script src="${pageContext.request.contextPath}/resources/js/show-password.js"></script>
     <form:form class="postcard" accept-charset="UTF-8"
         action="${pageContext.request.contextPath}/register-step-2"
         modelAttribute="user" method="POST">
@@ -11,23 +12,23 @@
 
         Имя:<br>
         <form:input path="name" placeholder="Введи имя"/><br>
-        <form:errors path="name" cssClass="error"/>
+        <form:errors path="name" class="error"/>
         <br>
 
         Фамилия:<br>
         <form:input path="surname" placeholder="Введи фамилию"/><br>
-        <form:errors path="surname" cssClass="error"/>
+        <form:errors path="surname" class="error"/>
         <br>
 
         Пол:<br>
         Мужчина <form:radiobutton path="gender" value="мужской"/><br>
         Женщина <form:radiobutton path="gender" value="женский"/><br>
-        <form:errors path="gender" cssClass="error"/>
+        <form:errors path="gender" class="error"/>
         <br>
 
         Электронная почта:<br>
         <form:input path="email" placeholder="Введи e-mail"/><br>
-        <form:errors path="email" cssClass="error"/>
+        <form:errors path="email" class="error"/>
         <br>
 
         Пароль:<br>
@@ -37,9 +38,9 @@
         <div style="margin-bottom: 5px">
             <label><input type="checkbox" onclick="show()"/>Показать пароль</label>
             </div>
-        <form:errors path="password" cssClass="error"/>
+        <form:errors path="password" class="error"/>
         <br><br>
 
         <input type="submit" value="Подтвердить" class="add-button"/>
     </form:form>
-<jsp:include page="unreg-footer.jsp"/>
+<jsp:include page="../footer.jsp"/>
