@@ -6,7 +6,7 @@
         <div class="hello" >
             <h2>Пользователь с таким email<br><br>уже зарегистрирован!<br><br>Попробуй ещё раз!<br></h2>
         </div>
-        <div class="confirm" style="margin-top: 20px; margin-left: 20px;">
+        <div class="confirm" style="margin-top: 20px; margin-left: 40px;">
             <a href="${pageContext.request.contextPath}"
                 class="btn btn-primary" role="button" aria-pressed="true">На главную страницу</a>
         </div>

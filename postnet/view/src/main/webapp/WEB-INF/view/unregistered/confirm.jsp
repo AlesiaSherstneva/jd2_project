@@ -7,7 +7,7 @@
                 из ОПС ${user.userJob.postoffice}!<br><br>Поздравляю с регистрацией<br><br>
                 в социальной сети "ВОтделении"!</h2>
         </div>
-        <div class="confirm" style="margin-top: 50px; margin-left: 20px;">
+        <div class="confirm" style="margin-top: 50px; margin-left: 40px;">
             <a href="${pageContext.request.contextPath}"
                 class="btn btn-primary" role="button" aria-pressed="true">На главную страницу</a>
         </div>
