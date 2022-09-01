@@ -1,29 +1,17 @@
+<%--suppress HtmlFormInputWithoutLabel --%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page contentType="text/html;charset=utf-8" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html lang="ru">
-    <head>
-        <title>ВОтделении</title>
-        <link rel="stylesheet" type="text/css"
-        		 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/login.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-        <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/resources/js/show-password.js"></script>
-		<style>
-			body {
-				background:url(${pageContext.request.contextPath}/resources/image/belpost.jpg) no-repeat;
-				background-size: 100%;
-				font-family:Helvetica,Arial, sans-serif;
-			}
-		</style>
-    </head>
-    <body>
-        <div class="hello" style="margin-top: 180px; margin-left: 40px; color: #FFFFFF;font-family: Verdana, Arial, Helvetica, sans-serif;">
+<jsp:include page="header.jsp"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/login.css"/>
+<link rel="stylesheet" type="text/css"	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="${pageContext.request.contextPath}/resources/js/show-password.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <div class="hello">
             <h1>Привет! Добро пожаловать</h1><h1>в социальную сеть</h1>
             <h1>для работников производства</h1><h1>"Минская почта"!</h1>
             <h1>Заходи, не стесняйся!</h1>
@@ -86,5 +74,4 @@
         		</div>
         	</div>
         </div>
-    </body>
-</html>
+<jsp:include page="footer.jsp"/>
