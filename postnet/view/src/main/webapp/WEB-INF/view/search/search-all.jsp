@@ -24,7 +24,7 @@
             </c:otherwise>
         </c:choose>
     </c:forEach>
-    <div class="confirm" style="margin-top: 20px; /*margin-left: 20px;*/">
+    <div class="confirm" style="margin-top: 20px;">
         <a href="${pageContext.request.contextPath}"
            class="btn btn-primary" role="button" aria-pressed="true">На главную страницу</a>
     </div>
