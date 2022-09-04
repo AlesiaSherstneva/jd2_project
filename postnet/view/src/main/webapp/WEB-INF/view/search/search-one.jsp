@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
+<%--<!DOCTYPE html>
 <html>
     <head>
         <title>ВОтделении</title>
@@ -13,7 +13,10 @@
         <link rel="stylesheet" type="text/css"
                 		 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     </head>
-    <body>
+    <body>--%>
+<jsp:include page="../header.jsp"/>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/user-profile.css"/>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <c:set var="gender" value="${user.gender}"/>
         <c:choose>
             <c:when test="${gender == 'женский'}">
@@ -35,12 +38,11 @@
 
             </sec:authorize>
 
-            <div class="confirm" style="margin-top: 20px; margin-left: 20px;">
+            <div class="confirm" style="margin-top: 20px;">
                 <a href="#" onclick="history.back();return false;"
                     class="btn btn-primary" role="button" aria-pressed="true">Назад</a>
                 <a href="${pageContext.request.contextPath}"
                     class="btn btn-primary" role="button" aria-pressed="true">На главную страницу</a>
             </div>
         </div>
-    </body>
-</html>
+<jsp:include page="../footer.jsp"/>
