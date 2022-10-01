@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
     private final UserDao userDao;
 
     @Autowired
@@ -35,5 +34,4 @@ public class AdminController {
         userDao.deleteUser(userId);
         return "redirect:/";
     }
-
 }

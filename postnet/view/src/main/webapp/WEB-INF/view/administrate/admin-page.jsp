@@ -28,6 +28,7 @@
                         <th>Статус</th>
                         <th>Действия</th>
                     </tr>
+                    <jsp:useBean id="users" scope="request" type="java.util.List"/>
                     <c:forEach var="user" items="${users}">
                         <c:url var="banLink" value="/admin/ban">
                             <c:param name="userId" value="${user.id}" />
@@ -81,4 +82,4 @@
             <input type="submit" value="Выход из аккаунта" class="logout-button"/>
         </form:form>
     </body>
-<html>
+</html>
