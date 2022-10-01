@@ -3,10 +3,11 @@ package by.academy.it.dao;
 import by.academy.it.pojo.User;
 import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
-import by.academy.it.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,84 +15,76 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-@Repository
+@Component
 public class UserDaoImpl implements UserDao {
+    SessionFactory sessionFactory;
 
-    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-    Session session;
+    @Autowired
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
+    @Transactional
     public void setUser(User user) {
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         session.save(user);
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUser(Integer id) {
-        session = sessionFactory.openSession();
-
-        User user = session.find(User.class, id);
-
-        session.close();
-        return user;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(User.class, id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserByEmail(String email) {
-        session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
         Root<User> lookingForUser = criteria.from(User.class);
         criteria.select(lookingForUser);
         criteria.where(builder.equal(lookingForUser.get("email"), email));
-        User user = session.createQuery(criteria).getSingleResult();
 
-        session.close();
-        return user;
+        return session.createQuery(criteria).getSingleResult();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
-        session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
         criteria.from(User.class);
-        List<User> allUsers = session.createQuery(criteria).getResultList();
 
-        session.close();
-        return allUsers;
+        return session.createQuery(criteria).getResultList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> searchUsers(String searchString) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
 
         CriteriaQuery<User> criteria = getUserCriteriaQuery(searchString, session);
 
-        List<User> likeUsers = session.createQuery(criteria).getResultList();
-        session.close();
-        return likeUsers;
+        return session.createQuery(criteria).getResultList();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> pageUsers(String searchString, int page) {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
 
         CriteriaQuery<User> criteria = getUserCriteriaQuery(searchString, session);
 
-        List<User> pageUsers = session.createQuery(criteria)
+        return session.createQuery(criteria)
                 .setFirstResult(page*3)
                 .setMaxResults(3)
                 .getResultList();
-        session.close();
-        return pageUsers;
     }
 
     //вспомогательный метод, чтобы не повторять один и тот же код в предыдущих двух методах
@@ -118,64 +111,45 @@ public class UserDaoImpl implements UserDao {
 
         criteria.where(predicate);
         criteria.orderBy(builder.asc(lookingForUsers.get("surname")), builder.asc(lookingForUsers.get("surname")));
+
         return criteria;
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         session.update(user);
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void updateUserJob(UserJob userJob) {
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         session.update(userJob);
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void updateUserDetails(UserDetails userDetails) {
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-
+        Session session = sessionFactory.getCurrentSession();
         session.update(userDetails);
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void updateUserStatus(Byte enabled, Integer id) {
-        session = sessionFactory.openSession();
-        session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
 
         User updatingUser = session.get(User.class, id);
         updatingUser.setEnabled(enabled);
         session.update(updatingUser);
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Override
+    @Transactional
     public void deleteUser(Integer id) {
-        session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        User deletingUser = session.find(User.class, id);
-        session.delete(deletingUser);
-
-        session.getTransaction().commit();
-        session.close();
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(session.find(User.class, id));
     }
 }
