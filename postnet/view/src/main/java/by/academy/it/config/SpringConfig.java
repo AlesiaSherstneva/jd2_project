@@ -66,7 +66,7 @@ public class SpringConfig implements WebMvcConfigurer {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("by.academy.it.pojoAdd");
+        sessionFactory.setPackagesToScan("by.academy.it.pojo");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
