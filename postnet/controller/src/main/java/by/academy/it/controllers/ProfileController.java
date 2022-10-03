@@ -82,7 +82,14 @@ public class ProfileController {
     @GetMapping("/edit-3")
     public String thirdEdit(Principal principal,
                              Model model) {
-        model.addAttribute("userdetails", userDao.getUserByEmail(principal.getName()).getUserDetails());
+        UserDetails userDetails = userDao.getUserByEmail(principal.getName()).getUserDetails();
+        if (userDetails.getAbout().equals("не указано")) {
+            userDetails.setAbout(" ");
+        }
+        if (userDetails.getHobby().equals("не указано")) {
+            userDetails.setHobby(" ");
+        }
+        model.addAttribute("userdetails", userDetails);
         return "/registered/edit-3";
     }
 
@@ -91,6 +98,12 @@ public class ProfileController {
                                 BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "/registered/edit-3";
+        }
+        if(userDetails.getAbout() == null) {
+            userDetails.setAbout("не указано");
+        }
+        if(userDetails.getHobby() == null) {
+            userDetails.setHobby("не указано");
         }
         userDao.updateUserDetails(userDetails);
         return "redirect:/";
