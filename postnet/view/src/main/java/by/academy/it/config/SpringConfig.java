@@ -29,7 +29,6 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource("classpath:persistence.properties")
 public class SpringConfig implements WebMvcConfigurer {
-
     private final Environment environment;
 
     @Autowired
