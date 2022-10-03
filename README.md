@@ -4,6 +4,21 @@ Hibernate-конфигурацию с XML на аннотации, а также
 пока что они не работают. Писать тесты для подобной конфигурации я пока не умею, курс по JUnit-тестированию на Udemy.com 
 в планах на ближайшее время.
 
+> [!NOTE]
+> Information the user should notice even if skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]
+> Essential information required for user success.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+
+> [!WARNING]
+> Dangerous certain consequences of an action.
+
 <p>Требования к выпускному проекту для выпускников IT-Academy, претендующих на сертификат, можно увидеть в документах 
 "JD2 - дипломный проект.pdf" и "Проект Социальная сеть.pdf"</p>
 <p>Социальная сеть "ВОтделении" предназначена для работников отделений связи производства "Минская почта" (специалистов 
