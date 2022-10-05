@@ -1,27 +1,11 @@
 package by.academy.it.dao;
 
-import by.academy.it.pojo.User;
-import by.academy.it.pojo.UserDetails;
-import by.academy.it.pojo.UserJob;
-import by.academy.it.pojo.UserMapper;
-import by.academy.it.util.HibernateUtilTest;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+public class UserDaoImplTest /*extends HibernateUtilTest*/ {
+   /* private SessionFactory sessionFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+    @Autowired
+    private UserDao testUserDao;
 
-import static org.junit.Assert.*;
-
-public class UserDaoImplTest extends HibernateUtilTest {
-
-    UserDaoImpl testUserDao = new UserDaoImpl();
     User testUser;
     UserJob testUserJob;
     UserDetails testUserDetails;
@@ -39,6 +23,7 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
 
     @Before
+    @Transactional
     public void setUp() {
         testUserDao.sessionFactory = HibernateUtilTest.sessionFactory;
 
@@ -89,7 +74,6 @@ public class UserDaoImplTest extends HibernateUtilTest {
 
         jdbcTemplate.update("DELETE FROM user WHERE id = ?", gotUser.getId());
     }
-
     @Test
     public void getUserTest() {
         User gotUser = testUserDao.getUser(3);
@@ -191,7 +175,6 @@ public class UserDaoImplTest extends HibernateUtilTest {
             assertEquals("Incorrect result size: expected 1, actual 0", exception.getMessage());
         }
     }
-
     @AfterClass
     public static void afterClass() {
         jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 0");
@@ -201,5 +184,5 @@ public class UserDaoImplTest extends HibernateUtilTest {
         jdbcTemplate.execute("TRUNCATE TABLE user_details");
 
         jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
-    }
+    }*/
 }
