@@ -23,8 +23,8 @@ public class UserDetails implements Serializable {
     private Integer id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Past(message = "Дата должна быть меньше текущей")
     @Temporal(TemporalType.DATE)
+    @Past(message = "Дата должна быть меньше текущей")
     @NotNull(message = "Это поле не может быть пустым")
     @Column(name = "birthday")
     private Date birthday;

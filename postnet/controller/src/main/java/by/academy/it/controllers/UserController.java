@@ -21,9 +21,7 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
-
     private final UserDao userDao;
-
     private final UniqueEmailValidator validator;
 
     User registeredUser = new User();
