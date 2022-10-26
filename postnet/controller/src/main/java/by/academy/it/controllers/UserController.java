@@ -45,13 +45,11 @@ public class UserController {
     }
 
     @PostMapping(value = "/register-step-2")
-    public String secondRegister(@Valid @ModelAttribute("user") User user,
+    public String secondRegister(@ModelAttribute("user") @Valid User user,
                                  BindingResult bindingResult,
                                  Model model) {
-        if(validator.validateEmail(user.getEmail())) {
-            return "/unregistered/wrong-email";
-        }
-        if(bindingResult.hasErrors()) {
+        validator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
             return "/unregistered/register-step-1";
         }
         user.setPassword("{noop}" + user.getPassword());
@@ -62,9 +60,9 @@ public class UserController {
 
     @PostMapping(value = "/register-step-3")
     public String thirdRegister(@Valid @ModelAttribute("userjob") UserJob userJob,
-                                 BindingResult bindingResult,
-                                 Model model) {
-        if(bindingResult.hasErrors()) {
+                                BindingResult bindingResult,
+                                Model model) {
+        if (bindingResult.hasErrors()) {
             return "/unregistered/register-step-2";
         }
         registeredUser.setUserJob(userJob);
@@ -76,13 +74,13 @@ public class UserController {
     public String finishRegister(@Valid @ModelAttribute("userdetails") UserDetails userDetails,
                                  BindingResult bindingResult,
                                  Model model) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "/unregistered/register-step-3";
         }
-        if(userDetails.getAbout() == null) {
+        if (userDetails.getAbout() == null) {
             userDetails.setAbout("не указано");
         }
-        if(userDetails.getHobby() == null) {
+        if (userDetails.getHobby() == null) {
             userDetails.setHobby("не указано");
         }
         registeredUser.setUserDetails(userDetails);

@@ -20,13 +20,12 @@ import java.security.Principal;
 public class ProfileController {
 
     private final UserDao userDao;
-
-    private final UniqueEmailValidator validator;
+    private final UniqueEmailValidator uniqueEmailValidator;
 
     @Autowired
-    public ProfileController(UserDao userDao, UniqueEmailValidator validator) {
+    public ProfileController(UserDao userDao, UniqueEmailValidator uniqueEmailValidator) {
         this.userDao = userDao;
-        this.validator = validator;
+        this.uniqueEmailValidator = uniqueEmailValidator;
     }
 
     @InitBinder
@@ -44,15 +43,14 @@ public class ProfileController {
         return "/registered/edit-1";
     }
 
-    @PatchMapping("/confirm-1")
-    public String firstConfirm(@Valid @ModelAttribute("user") User user,
+    @SuppressWarnings("SpringMVCViewInspection")
+    @PostMapping("/confirm-1")
+    public String firstConfirm(@ModelAttribute("user") @Valid User user,
                                BindingResult bindingResult,
                                Principal principal) {
+        uniqueEmailValidator.validate(user, bindingResult);
         if(bindingResult.hasErrors()) {
             return "/registered/edit-1";
-        }
-        if(validator.validateEmail(user.getEmail()) && !user.getEmail().equals(principal.getName())) {
-            return "/unregistered/wrong-email";
         }
         user.setPassword("{noop}" + user.getPassword());
         userDao.updateUser(user);
