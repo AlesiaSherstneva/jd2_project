@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -49,7 +50,11 @@ public class UserDaoImpl implements UserDao {
         criteria.select(lookingForUser);
         criteria.where(builder.equal(lookingForUser.get("email"), email));
 
-        return session.createQuery(criteria).getSingleResult();
+        try{
+            return session.createQuery(criteria).getSingleResult();
+        } catch (NoResultException exception) {
+            return null;
+        }
     }
 
     @Override
