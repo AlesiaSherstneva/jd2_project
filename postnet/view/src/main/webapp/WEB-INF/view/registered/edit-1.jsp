@@ -8,7 +8,6 @@
 <form:form class="postcard" accept-charset="UTF-8"
            action="${pageContext.request.contextPath}/confirm-1"
            modelAttribute="user" method="POST">
-    <input type="hidden" name="_method" value="PATCH">
 
     <h3>Редактирование</h3>
     <form:input path="id" type="hidden"/>
