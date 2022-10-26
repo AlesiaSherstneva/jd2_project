@@ -4,6 +4,7 @@ import by.academy.it.dao.UserDao;
 import by.academy.it.pojo.User;
 import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
+import by.academy.it.services.UserService;
 import by.academy.it.validators.UniqueEmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -22,13 +23,15 @@ import javax.validation.Valid;
 @Controller
 public class UserController {
     private final UserDao userDao;
+    private final UserService userService;
     private final UniqueEmailValidator validator;
 
     User registeredUser = new User();
 
     @Autowired
-    public UserController(UserDao userDao, UniqueEmailValidator validator) {
+    public UserController(UserDao userDao, UserService userService, UniqueEmailValidator validator) {
         this.userDao = userDao;
+        this.userService = userService;
         this.validator = validator;
     }
 
@@ -39,8 +42,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/register-step-1")
-    public String firstRegister(Model model) {
-        model.addAttribute("user", new User());
+    public String firstRegister(@ModelAttribute("user") User user) {
         return "/unregistered/register-step-1";
     }
 
