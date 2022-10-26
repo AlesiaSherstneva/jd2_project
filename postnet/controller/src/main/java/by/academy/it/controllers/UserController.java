@@ -1,6 +1,5 @@
 package by.academy.it.controllers;
 
-import by.academy.it.dao.UserDao;
 import by.academy.it.pojo.User;
 import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
@@ -22,15 +21,13 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
-    private final UserDao userDao;
     private final UserService userService;
     private final UniqueEmailValidator validator;
 
     User registeredUser = new User();
 
     @Autowired
-    public UserController(UserDao userDao, UserService userService, UniqueEmailValidator validator) {
-        this.userDao = userDao;
+    public UserController(UserService userService, UniqueEmailValidator validator) {
         this.userService = userService;
         this.validator = validator;
     }
@@ -54,14 +51,13 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "/unregistered/register-step-1";
         }
-        user.setPassword("{noop}" + user.getPassword());
         registeredUser = user;
         model.addAttribute("userjob", new UserJob());
         return "/unregistered/register-step-2";
     }
 
     @PostMapping(value = "/register-step-3")
-    public String thirdRegister(@Valid @ModelAttribute("userjob") UserJob userJob,
+    public String thirdRegister(@ModelAttribute("userjob") @Valid UserJob userJob,
                                 BindingResult bindingResult,
                                 Model model) {
         if (bindingResult.hasErrors()) {
@@ -73,20 +69,16 @@ public class UserController {
     }
 
     @PostMapping(value = "/confirm")
-    public String finishRegister(@Valid @ModelAttribute("userdetails") UserDetails userDetails,
+    public String finishRegister(@ModelAttribute("userdetails") @Valid UserDetails userDetails,
                                  BindingResult bindingResult,
                                  Model model) {
         if (bindingResult.hasErrors()) {
             return "/unregistered/register-step-3";
         }
-        if (userDetails.getAbout() == null) {
-            userDetails.setAbout("не указано");
-        }
-        if (userDetails.getHobby() == null) {
-            userDetails.setHobby("не указано");
-        }
+
         registeredUser.setUserDetails(userDetails);
-        userDao.setUser(registeredUser);
+        userService.registerUser(registeredUser);
+
         model.addAttribute("user", registeredUser);
         return "/unregistered/confirm";
     }
