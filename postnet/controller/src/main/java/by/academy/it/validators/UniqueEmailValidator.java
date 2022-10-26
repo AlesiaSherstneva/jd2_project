@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Objects;
+
 @Component
 public class UniqueEmailValidator implements Validator {
     private final UserDao userDao;
@@ -25,7 +27,7 @@ public class UniqueEmailValidator implements Validator {
     public void validate(Object object, Errors errors) {
         User user = (User) object;
         User userInBase = userDao.getUserByEmail(user.getEmail());
-        if (userInBase != null && !user.getId().equals(userInBase.getId())) {
+        if (userInBase != null && !Objects.equals(user.getId(), userInBase.getId())) {
             errors.rejectValue("email", "", "Такой e-mail уже зарегистрирован!");
         }
     }
