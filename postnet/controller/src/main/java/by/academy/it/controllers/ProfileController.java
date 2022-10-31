@@ -73,7 +73,7 @@ public class ProfileController {
         if (bindingResult.hasErrors()) {
             return "/registered/edit-2";
         }
-        userDao.updateUserJob(userJob);
+        userService.updateUserJob(userJob);
         return "redirect:/";
     }
 

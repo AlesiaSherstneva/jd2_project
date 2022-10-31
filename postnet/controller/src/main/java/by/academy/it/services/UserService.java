@@ -2,6 +2,7 @@ package by.academy.it.services;
 
 import by.academy.it.dao.UserDao;
 import by.academy.it.pojo.User;
+import by.academy.it.pojo.UserJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +37,7 @@ public class UserService {
         userDao.updateUser(user);
     }
 
+    public void updateUserJob(UserJob userJob) {
+        userDao.updateUserJob(userJob);
+    }
 }
