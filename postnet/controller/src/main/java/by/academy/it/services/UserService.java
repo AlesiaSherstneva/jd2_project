@@ -2,6 +2,8 @@ package by.academy.it.services;
 
 import by.academy.it.dao.UserDao;
 import by.academy.it.pojo.User;
+import by.academy.it.pojo.UserDetails;
+import by.academy.it.pojo.UserJob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,4 +38,26 @@ public class UserService {
         userDao.updateUser(user);
     }
 
+    public UserJob getUserJob(String email) {
+        return userDao.getUserByEmail(email).getUserJob();
+    }
+
+    public void updateUserJob(UserJob userJob) {
+        userDao.updateUserJob(userJob);
+    }
+
+    public UserDetails getUserDetails(String email) {
+        UserDetails userDetails = userDao.getUserByEmail(email).getUserDetails();
+        if (userDetails.getAbout().equals("не указано")) {
+            userDetails.setAbout(" ");
+        }
+        if (userDetails.getHobby().equals("не указано")) {
+            userDetails.setHobby(" ");
+        }
+        return userDetails;
+    }
+
+    public void updateUserDetails(UserDetails userDetails) {
+
+    }
 }

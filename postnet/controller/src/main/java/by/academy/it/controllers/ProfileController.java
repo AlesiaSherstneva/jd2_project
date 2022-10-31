@@ -63,7 +63,7 @@ public class ProfileController {
     @GetMapping("/edit-2")
     public String secondEdit(Principal principal,
                              Model model) {
-        model.addAttribute("userjob", userDao.getUserByEmail(principal.getName()).getUserJob());
+        model.addAttribute("userjob", userService.getUserJob(principal.getName()));
         return "/registered/edit-2";
     }
 
@@ -73,21 +73,14 @@ public class ProfileController {
         if (bindingResult.hasErrors()) {
             return "/registered/edit-2";
         }
-        userDao.updateUserJob(userJob);
+        userService.updateUserJob(userJob);
         return "redirect:/";
     }
 
     @GetMapping("/edit-3")
     public String thirdEdit(Principal principal,
                             Model model) {
-        UserDetails userDetails = userDao.getUserByEmail(principal.getName()).getUserDetails();
-        if (userDetails.getAbout().equals("не указано")) {
-            userDetails.setAbout(" ");
-        }
-        if (userDetails.getHobby().equals("не указано")) {
-            userDetails.setHobby(" ");
-        }
-        model.addAttribute("userdetails", userDetails);
+        model.addAttribute("userdetails", userService.getUserDetails(principal.getName()));
         return "/registered/edit-3";
     }
 
