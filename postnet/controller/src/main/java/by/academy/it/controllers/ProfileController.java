@@ -1,6 +1,5 @@
 package by.academy.it.controllers;
 
-import by.academy.it.dao.UserDao;
 import by.academy.it.pojo.User;
 import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
@@ -19,14 +18,11 @@ import java.security.Principal;
 
 @Controller
 public class ProfileController {
-
-    private final UserDao userDao;
     private final UniqueEmailValidator uniqueEmailValidator;
     private final UserService userService;
 
     @Autowired
-    public ProfileController(UserDao userDao, UniqueEmailValidator uniqueEmailValidator, UserService userService) {
-        this.userDao = userDao;
+    public ProfileController(UniqueEmailValidator uniqueEmailValidator, UserService userService) {
         this.uniqueEmailValidator = uniqueEmailValidator;
         this.userService = userService;
     }
@@ -90,13 +86,7 @@ public class ProfileController {
         if (bindingResult.hasErrors()) {
             return "/registered/edit-3";
         }
-        if (userDetails.getAbout() == null) {
-            userDetails.setAbout("не указано");
-        }
-        if (userDetails.getHobby() == null) {
-            userDetails.setHobby("не указано");
-        }
-        userDao.updateUserDetails(userDetails);
+        userService.updateUserDetails(userDetails);
         return "redirect:/";
     }
 }

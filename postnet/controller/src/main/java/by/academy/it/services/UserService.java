@@ -58,6 +58,12 @@ public class UserService {
     }
 
     public void updateUserDetails(UserDetails userDetails) {
-
+        if (userDetails.getAbout() == null) {
+            userDetails.setAbout("не указано");
+        }
+        if (userDetails.getHobby() == null) {
+            userDetails.setHobby("не указано");
+        }
+        userDao.updateUserDetails(userDetails);
     }
 }
