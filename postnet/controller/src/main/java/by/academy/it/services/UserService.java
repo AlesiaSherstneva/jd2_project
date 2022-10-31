@@ -24,4 +24,16 @@ public class UserService {
         }
         userDao.setUser(user);
     }
+
+    public User changeUsersPassword(String email) {
+        User user = userDao.getUserByEmail(email);
+        user.setPassword(user.getPassword().substring(6));
+        return user;
+    }
+
+    public void updateUser(User user) {
+        user.setPassword("{noop}" + user.getPassword());
+        userDao.updateUser(user);
+    }
+
 }
