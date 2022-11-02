@@ -27,6 +27,10 @@ public class UserService {
         userDao.setUser(user);
     }
 
+    public User getUserByEmail(String email) {
+        return userDao.getUserByEmail(email);
+    }
+
     public User changeUsersPassword(String email) {
         User user = userDao.getUserByEmail(email);
         user.setPassword(user.getPassword().substring(6));
