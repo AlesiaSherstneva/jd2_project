@@ -4,6 +4,14 @@ html, body{
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 }
 
+A {
+	color: dodgerblue;
+}
+
+A:visited {
+	color: dodgerblue;
+}
+
 body {
 	background:url(../image/belpost-bw.jpg) no-repeat;
 	background-size: 100%;

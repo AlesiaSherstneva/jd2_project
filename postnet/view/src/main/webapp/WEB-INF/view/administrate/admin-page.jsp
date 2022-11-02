@@ -31,13 +31,13 @@
             <jsp:useBean id="users" scope="request" type="java.util.List"/>
             <c:forEach var="user" items="${users}">
                 <c:url var="banLink" value="/admin/ban">
-                    <c:param name="userId" value="${user.id}"/>
+                    <c:param name="id" value="${user.id}"/>
                 </c:url>
                 <c:url var="unbanLink" value="/admin/unban">
-                    <c:param name="userId" value="${user.id}"/>
+                    <c:param name="id" value="${user.id}"/>
                 </c:url>
                 <c:url var="deleteLink" value="/admin/delete">
-                    <c:param name="userId" value="${user.id}"/>
+                    <c:param name="id" value="${user.id}"/>
                 </c:url>
                 <tr>
                     <td>${user.name}</td>
