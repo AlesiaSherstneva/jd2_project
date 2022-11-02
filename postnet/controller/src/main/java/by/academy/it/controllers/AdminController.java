@@ -1,6 +1,6 @@
 package by.academy.it.controllers;
 
-import by.academy.it.dao.UserDao;
+import by.academy.it.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final UserDao userDao;
+    private final AdminService adminService;
 
     @Autowired
-    public AdminController(UserDao userDao) {
-        this.userDao = userDao;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @GetMapping("/ban")
-    public String banUser(@RequestParam("userId") int userId) {
-        userDao.updateUserStatus((byte) 0, userId);
+    public String banUser(@RequestParam("id") int id) {
+        adminService.banUser(id);
         return "redirect:/";
     }
 
     @GetMapping("/unban")
-    public String unbanUser(@RequestParam("userId") int userId) {
-        userDao.updateUserStatus((byte) 1, userId);
+    public String unbanUser(@RequestParam("id") int id) {
+        adminService.unbanUser(id);
         return "redirect:/";
     }
 
     @GetMapping("/delete")
-    public String deleteUser(@RequestParam("userId") int userId) {
-        userDao.deleteUser(userId);
+    public String deleteUser(@RequestParam("id") int id) {
+        adminService.deleteUser(id);
         return "redirect:/";
     }
 }
