@@ -16,7 +16,7 @@ public class SearchService {
         this.userDao = userDao;
     }
 
-    public int pagesCount (String searchString) {
+    public int pagesCount(String searchString) {
         List<User> users = userDao.searchUsers(searchString);
         if (users.isEmpty()) {
             users = userDao.getAllUsers();

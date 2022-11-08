@@ -86,7 +86,7 @@ public class UserDaoImpl implements UserDao {
 
         CriteriaQuery<User> criteria = getUserCriteriaQuery(searchString, session);
 
-        if(session.createQuery(criteria).getResultList().isEmpty()) {
+        if (session.createQuery(criteria).getResultList().isEmpty()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             criteria = builder.createQuery(User.class);
             Root<User> lookingForUsers = criteria.from(User.class);

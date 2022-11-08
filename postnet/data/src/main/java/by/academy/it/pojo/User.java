@@ -20,7 +20,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
     // публичный профиль, первая страница
@@ -67,7 +67,7 @@ public class User implements Serializable {
 
     // для настройки security и администрирования
 
-    @Column(name="authority")
+    @Column(name = "authority")
     private String authority = "REGISTERED";
 
     @Column(name = "enabled")

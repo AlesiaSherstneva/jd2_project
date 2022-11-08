@@ -18,8 +18,8 @@ import java.security.Principal;
 
 @Controller
 public class ProfileController {
-    private final UniqueEmailValidator uniqueEmailValidator;
     private final UserService userService;
+    private final UniqueEmailValidator uniqueEmailValidator;
 
     @Autowired
     public ProfileController(UniqueEmailValidator uniqueEmailValidator, UserService userService) {
