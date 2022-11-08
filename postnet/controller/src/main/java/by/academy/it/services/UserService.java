@@ -27,6 +27,10 @@ public class UserService {
         userDao.setUser(user);
     }
 
+    public User getUserById(int id) {
+        return userDao.getUser(id);
+    }
+
     public User getUserByEmail(String email) {
         return userDao.getUserByEmail(email);
     }
