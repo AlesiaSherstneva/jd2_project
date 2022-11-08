@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
         criteria.select(lookingForUser);
         criteria.where(builder.equal(lookingForUser.get("email"), email));
 
-        try{
+        try {
             return session.createQuery(criteria).getSingleResult();
         } catch (NoResultException exception) {
             return null;
@@ -86,14 +86,22 @@ public class UserDaoImpl implements UserDao {
 
         CriteriaQuery<User> criteria = getUserCriteriaQuery(searchString, session);
 
+        if(session.createQuery(criteria).getResultList().isEmpty()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            criteria = builder.createQuery(User.class);
+            Root<User> lookingForUsers = criteria.from(User.class);
+            criteria.select(lookingForUsers);
+            criteria.orderBy(builder.asc(lookingForUsers.get("surname")), builder.asc(lookingForUsers.get("surname")));
+        }
+
         return session.createQuery(criteria)
-                .setFirstResult(page*3)
+                .setFirstResult(page * 3)
                 .setMaxResults(3)
                 .getResultList();
     }
 
     //вспомогательный метод, чтобы не повторять один и тот же код в предыдущих двух методах
-    
+
     private CriteriaQuery<User> getUserCriteriaQuery(String searchString, Session session) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
@@ -113,7 +121,6 @@ public class UserDaoImpl implements UserDao {
                         builder.lower(lookingForUsers.get("userJob").get("role")),
                         builder.lower(builder.literal("%" + searchString.trim() + "%")))
         );
-
         criteria.where(predicate);
         criteria.orderBy(builder.asc(lookingForUsers.get("surname")), builder.asc(lookingForUsers.get("surname")));
 
