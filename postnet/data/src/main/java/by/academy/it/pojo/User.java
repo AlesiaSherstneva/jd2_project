@@ -55,14 +55,12 @@ public class User implements Serializable {
 
     // публичный профиль, вторая страница
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "user_job_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserJob userJob;
 
     // приватный профиль
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn(name = "user_details_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserDetails userDetails;
 
     // для настройки security и администрирования

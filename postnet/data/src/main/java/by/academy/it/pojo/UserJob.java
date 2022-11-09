@@ -16,8 +16,12 @@ import java.io.Serializable;
 public class UserJob implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_job_id")
+    @Column(name = "id")
     private Integer id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @NotNull(message = "Это поле не может быть пустым")
     @Column(name = "postoffice")

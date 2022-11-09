@@ -19,8 +19,12 @@ import java.util.Date;
 public class UserDetails implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_details_id")
+    @Column(name = "id")
     private Integer id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
