@@ -63,6 +63,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "/unregistered/register-step-2";
         }
+        userJob.setUser(registeredUser);
         registeredUser.setUserJob(userJob);
         model.addAttribute("userdetails", new UserDetails());
         return "/unregistered/register-step-3";
@@ -75,7 +76,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "/unregistered/register-step-3";
         }
-
+        userDetails.setUser(registeredUser);
         registeredUser.setUserDetails(userDetails);
         userService.registerUser(registeredUser);
 

@@ -65,10 +65,11 @@ public class ProfileController {
 
     @PatchMapping("/confirm-2")
     public String secondConfirm(@ModelAttribute("userjob") @Valid UserJob userJob,
-                                BindingResult bindingResult) {
+                                BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "/registered/edit-2";
         }
+        userJob.setUser(userService.getUserByEmail(principal.getName()));
         userService.updateUserJob(userJob);
         return "redirect:/";
     }
@@ -82,10 +83,11 @@ public class ProfileController {
 
     @PatchMapping("/confirm-3")
     public String thirdConfirm(@ModelAttribute("userdetails") @Valid UserDetails userDetails,
-                               BindingResult bindingResult) {
+                               BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "/registered/edit-3";
         }
+        userDetails.setUser(userService.getUserByEmail(principal.getName()));
         userService.updateUserDetails(userDetails);
         return "redirect:/";
     }
