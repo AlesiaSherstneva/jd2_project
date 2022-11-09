@@ -8,37 +8,45 @@
 
     <changeSet id="1" author="a.sherstneva">
         <sql>
-            CREATE TABLE IF NOT EXISTS user_job (
-            user_job_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            postoffice VARCHAR(30) NOT NULL,
-            role VARCHAR(35) NOT NULL
-            );
+            CREATE TABLE IF NOT EXISTS user (
+                id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(15) NOT NULL,
+                surname VARCHAR(20) NOT NULL,
+                gender VARCHAR(10) NOT NULL,
+                email VARCHAR(50) NOT NULL,
+                password VARCHAR(20) NOT NULL,
+                authority VARCHAR(10) DEFAULT "REGISTERED",
+                enabled TINYINT DEFAULT 1,
+                UNIQUE KEY email (email)
+                );
         </sql>
     </changeSet>
 
     <changeSet id="2" author="a.sherstneva">
         <sql>
-            CREATE TABLE IF NOT EXISTS user_details (
-            user_details_id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            birthday DATE NULL,
-            about TEXT ,
-            hobby TEXT
-            );
+            CREATE TABLE IF NOT EXISTS user_job (
+                id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                user_id INT UNSIGNED NOT NULL,
+                postoffice VARCHAR(30) NOT NULL,
+                role VARCHAR(35) NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES user(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+                );
         </sql>
     </changeSet>
 
     <changeSet id="3" author="a.sherstneva">
         <sql>
-            CREATE TABLE IF NOT EXISTS user (
+            CREATE TABLE IF NOT EXISTS user_details (
             id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            name VARCHAR(15) NOT NULL,
-            surname VARCHAR(20) NOT NULL,
-            gender VARCHAR(10) NOT NULL,
-            email VARCHAR(50) NOT NULL,
-            password VARCHAR(20) NOT NULL,
-            authority VARCHAR(10) DEFAULT "REGISTERED",
-            enabled TINYINT DEFAULT 1,
-            UNIQUE KEY email (email)
+            user_id INT UNSIGNED NOT NULL,
+            birthday DATE,
+            about TEXT,
+            hobby TEXT,
+            FOREIGN KEY (user_id) REFERENCES user(id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
             );
         </sql>
     </changeSet>
@@ -56,23 +64,23 @@
 
     <changeSet id="5" author="a.sherstneva">
         <sql>
-            INSERT INTO user_job (postoffice, role) VALUES
-            ("Минск-125", "оператор связи"),
-            ("Минск-50", "специалист по почтовой деятельности"),
-            ("Минск Бизнес-почта 107", "специалист по почтовой деятельности"),
-            ("Минск-53", "почтальон"),
-            ("Минск-138", "почтальон")
+            INSERT INTO user_job (user_id,  postoffice, role) VALUES
+            (1, "Минск-125", "оператор связи"),
+            (2, "Минск-50", "специалист по почтовой деятельности"),
+            (3, "Минск Бизнес-почта 107", "специалист по почтовой деятельности"),
+            (4, "Минск-53", "почтальон"),
+            (5, "Минск-138", "почтальон")
         </sql>
     </changeSet>
 
     <changeSet id="6" author="a.sherstneva">
         <sql>
-            INSERT INTO user_details (birthday, about, hobby) VALUES
-            ("2002-05-14", "Меня сложно найти, легко потерять и невозможно забыть!", "Играю на нервах"),
-            ("1997-01-27", "Я не упрямая, просто я всегда права", "Могу не только послать, но и подтолкнуть в указанном направлении"),
-            ("2000-11-02", "Жизнь слишком коротка, чтобы обновлять статусы", "Я так клево пою, что соседи начинают апплодировать по батарее"),
-            ("1982-08-08", "Мне не 40 лет, а 17 лет с 23-летним стажем!", "Разношу хорошее настроение. Некоторым - вдребезги"),
-            ("1990-12-30", "Я простой пацан, мне всё по барабану!", "Кино, вино, домино")
+            INSERT INTO user_details (user_id, birthday, about, hobby) VALUES
+            (1, "2002-05-14", "Меня сложно найти, легко потерять и невозможно забыть!", "Играю на нервах"),
+            (2, "1997-01-27", "Я не упрямая, просто я всегда права", "Могу не только послать, но и подтолкнуть в указанном направлении"),
+            (3, "2000-11-02", "Жизнь слишком коротка, чтобы обновлять статусы", "Я так клево пою, что соседи начинают апплодировать по батарее"),
+            (4, "1982-08-08", "Мне не 40 лет, а 17 лет с 23-летним стажем!", "Разношу хорошее настроение. Некоторым - вдребезги"),
+            (5, "1990-12-30", "Я простой пацан, мне всё по барабану!", "Кино, вино, домино")
         </sql>
     </changeSet>
 
