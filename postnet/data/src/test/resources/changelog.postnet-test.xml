@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="1" author="a.sherstneva">
+        <sql>
+            CREATE TABLE IF NOT EXISTS user (
+                id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                name VARCHAR(15) NOT NULL,
+                surname VARCHAR(20) NOT NULL,
+                gender VARCHAR(10) NOT NULL,
+                email VARCHAR(50) NOT NULL,
+                password VARCHAR(20) NOT NULL,
+                authority VARCHAR(10) DEFAULT "REGISTERED",
+                enabled TINYINT DEFAULT 1,
+                UNIQUE KEY email (email)
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="2" author="a.sherstneva">
+        <sql>
+            CREATE TABLE IF NOT EXISTS user_job (
+                id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                user_id INT UNSIGNED NOT NULL,
+                postoffice VARCHAR(30) NOT NULL,
+                role VARCHAR(35) NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES user(id)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+                );
+        </sql>
+    </changeSet>
+
+    <changeSet id="3" author="a.sherstneva">
+        <sql>
+            CREATE TABLE IF NOT EXISTS user_details (
+            id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+            user_id INT UNSIGNED NOT NULL,
+            birthday DATE,
+            about TEXT,
+            hobby TEXT,
+            FOREIGN KEY (user_id) REFERENCES user(id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="4" author="a.sherstneva">
+        <sql>
+            INSERT INTO user (name, surname, gender, email, password, authority) VALUES
+            ("TestName1", "TestSurname1", "женский", "test1@test.test", "Test1234", "REGISTERED"),
+            ("TestName2", "TestSurname2", "мужской", "test2@test.test", "Test1234", "REGISTERED"),
+            ("ТестИмя3", "ТестФамилия3", "женский", "test3@test.test", "Test1234", "REGISTERED"),
+            ("ТестИмя4", "ТестФамилия4", "мужской", "test4@test.test", "Test1234", "REGISTERED")
+        </sql>
+    </changeSet>
+
+    <changeSet id="5" author="a.sherstneva">
+        <sql>
+            INSERT INTO user_job (user_id,  postoffice, role) VALUES
+            (1, "Минск-1", "почтальон"),
+            (2, "Минск-2", "оператор связи"),
+            (3, "Минск Пункт выдачи 4", "специалист по почтовой деятельности"),
+            (4, "Минск Бизнес-почта 120", "специалист по почтовой деятельности")
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="a.sherstneva">
+        <sql>
+            INSERT INTO user_details (user_id, birthday, about, hobby) VALUES
+            (1, "1984-01-18", "testabout1", "testhobby1"),
+            (2, "1990-12-08", "testabout2", "testhobby2"),
+            (3, "1989-05-31", "testabout3", "testhobby3"),
+            (4, "2001-08-11", "testabout4", "testhobby4")
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
