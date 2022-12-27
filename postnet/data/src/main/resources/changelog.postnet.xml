@@ -26,7 +26,7 @@
         <sql>
             CREATE TABLE IF NOT EXISTS user_job (
                 id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                user_id INT UNSIGNED NOT NULL,
+                user_id INT UNSIGNED,
                 postoffice VARCHAR(30) NOT NULL,
                 role VARCHAR(35) NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES user(id)
@@ -40,7 +40,7 @@
         <sql>
             CREATE TABLE IF NOT EXISTS user_details (
             id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            user_id INT UNSIGNED NOT NULL,
+            user_id INT UNSIGNED,
             birthday DATE,
             about TEXT,
             hobby TEXT,

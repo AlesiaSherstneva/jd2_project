@@ -1,6 +1,7 @@
 package by.academy.it.pojo;
 
 import by.academy.it.validators.Password;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,11 +13,12 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "user")
+@EqualsAndHashCode
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
