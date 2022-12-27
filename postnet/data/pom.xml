@@ -56,7 +56,7 @@
                             <username>root</username>
                             <password>root</password>
                             <driver>com.mysql.cj.jdbc.Driver</driver>
-                            <changeLogFile>src/main/resources/changelog.postnet.xml</changeLogFile>
+                            <changeLogFile>src/test/resources/changelog.postnet-test.xml</changeLogFile>
                         </configuration>
                     </execution>
                 </executions>
