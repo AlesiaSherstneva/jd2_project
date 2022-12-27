@@ -20,7 +20,7 @@ public class UserJob implements Serializable {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @NotNull(message = "Это поле не может быть пустым")

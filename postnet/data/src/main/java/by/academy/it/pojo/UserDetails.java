@@ -23,7 +23,7 @@ public class UserDetails implements Serializable {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
