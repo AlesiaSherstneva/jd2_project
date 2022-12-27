@@ -6,7 +6,7 @@ import by.academy.it.pojo.UserJob;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
@@ -16,7 +16,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-@Component
+@Repository
+@Transactional(readOnly = true)
 public class UserDaoImpl implements UserDao {
     SessionFactory sessionFactory;
 
@@ -33,14 +34,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public User getUser(Integer id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(User.class, id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public User getUserByEmail(String email) {
         Session session = sessionFactory.getCurrentSession();
 
@@ -58,7 +57,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         Session session = sessionFactory.getCurrentSession();
 
@@ -70,7 +68,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> searchUsers(String searchString) {
         Session session = sessionFactory.getCurrentSession();
 
@@ -80,7 +77,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> pageUsers(String searchString, int page) {
         Session session = sessionFactory.getCurrentSession();
 

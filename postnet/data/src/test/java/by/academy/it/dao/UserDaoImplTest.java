@@ -1,79 +1,52 @@
 package by.academy.it.dao;
 
-public class UserDaoImplTest /*extends HibernateUtilTest*/ {
-   /* private SessionFactory sessionFactory;
+import by.academy.it.config.TestSpringConfig;
+import by.academy.it.pojo.User;
+import by.academy.it.pojo.UserDetails;
+import by.academy.it.pojo.UserJob;
+import org.hibernate.SessionFactory;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestSpringConfig.class)
+@Transactional
+@FixMethodOrder(MethodSorters.JVM)
+public class UserDaoImplTest {
     @Autowired
+    private SessionFactory sessionFactory;
+
     private UserDao testUserDao;
 
-    User testUser;
-    UserJob testUserJob;
-    UserDetails testUserDetails;
-
-    public static JdbcTemplate jdbcTemplate;
-
-    static {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/postnet-test");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-        jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
-
     @Before
-    @Transactional
     public void setUp() {
-        testUserDao.sessionFactory = HibernateUtilTest.sessionFactory;
-
-        testUser = new User("testName", "testSurname", "женский", "test@test.test", "Test1234");
-
-        testUserJob = new UserJob("Минск-50, Главпочтамт", "почтальон");
-        testUser.setUserJob(testUserJob);
-
-        testUserDetails = new UserDetails(new java.sql.Date(594667996870L), "test user", "testing");
-        testUser.setUserDetails(testUserDetails);
-    }
-
-    @BeforeClass
-    public static void beforeClass() {
-        jdbcTemplate.execute("TRUNCATE TABLE user");
-        jdbcTemplate.execute("TRUNCATE TABLE user_job");
-        jdbcTemplate.execute("TRUNCATE TABLE user_details");
-
-        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
-
-        jdbcTemplate.update("INSERT IGNORE INTO user (name, surname, gender, email, password) VALUES " +
-                "('TestName1', 'TestSurname1', 'женский', 'test1@test.test', 'Test1234'), " +
-                "('TestName2', 'TestSurname2', 'мужской', 'test2@test.test', 'Test1234'), " +
-                "('ТестИмя3', 'ТестФамилия3', 'женский', 'test3@test.test', 'Test1234'), " +
-                "('ТестИмя4', 'ТестФамилия4', 'мужской', 'test4@test.test', 'Test1234') ");
-
-        jdbcTemplate.update("INSERT IGNORE INTO user_job (postoffice, role) VALUES " +
-                "('Минск-1', 'почтальон'), " +
-                "('Минск-2', 'оператор связи'), " +
-                "('Минск Пункт выдачи 4', 'специалист по почтовой деятельности'), " +
-                "('Минск Бизнес-почта 120', 'специалист по почтовой деятельности') ");
-
-        jdbcTemplate.update("INSERT IGNORE INTO user_details (birthday, about, hobby) VALUES " +
-                "('1984-01-18', 'testabout1', 'testhobby1'), " +
-                "('1990-12-08', 'testabout2', 'testhobby2'), " +
-                "('1989-05-31', 'testabout3', 'testhobby3'), " +
-                "('2001-08-11', 'testabout4', 'testhobby4') ");
+        testUserDao = new UserDaoImpl(sessionFactory);
     }
 
     @Test
     public void setUserTest() {
+        User testUser = new User("testName", "testSurname", "женский", "test@test.test", "Test1234");
+        testUser.setUserJob(new UserJob("Минск-50, Главпочтамт", "почтальон"));
+        testUser.setUserDetails(new UserDetails(new java.sql.Date(594667996870L), "test user", "testing"));
         testUserDao.setUser(testUser);
 
-        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE email = ?",
-                new BeanPropertyRowMapper<>(User.class), "test@test.test");
+        User gotUser = testUserDao.getUserByEmail(testUser.getEmail());
         assertNotNull(gotUser);
-        assertEquals("testName", gotUser.getName());
-
-        jdbcTemplate.update("DELETE FROM user WHERE id = ?", gotUser.getId());
+        assertSame(testUser, gotUser);
     }
+
     @Test
     public void getUserTest() {
         User gotUser = testUserDao.getUser(3);
@@ -115,14 +88,14 @@ public class UserDaoImplTest /*extends HibernateUtilTest*/ {
 
     @Test
     public void updateUserTest() {
-        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?", new UserMapper(), 1);
+        User gotUser = testUserDao.getUserByEmail("test3@test.test");
         assertNotNull(gotUser);
         assertEquals("женский", gotUser.getGender());
 
         gotUser.setGender("мужской");
         testUserDao.updateUser(gotUser);
 
-        gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?", new UserMapper(), 1);
+        gotUser = testUserDao.getUserByEmail("test3@test.test");
         assertNotNull(gotUser);
         assertEquals("мужской", gotUser.getGender());
     }
@@ -131,9 +104,10 @@ public class UserDaoImplTest /*extends HibernateUtilTest*/ {
     public void updateUserJobTest() {
         User gotUser = testUserDao.getUser(2);
         UserJob gotUserJob = gotUser.getUserJob();
+        assertEquals("оператор связи", gotUserJob.getRole());
+
         gotUserJob.setRole("почтальон");
         testUserDao.updateUserJob(gotUserJob);
-
         assertEquals("почтальон", testUserDao.getUser(2).getUserJob().getRole());
     }
 
@@ -143,7 +117,6 @@ public class UserDaoImplTest /*extends HibernateUtilTest*/ {
         UserDetails gotUserDetails = gotUser.getUserDetails();
         gotUserDetails.setHobby("Меняю пол без хирургического вмешательства");
         testUserDao.updateUserDetails(gotUserDetails);
-
         assertEquals("Меняю пол без хирургического вмешательства",
                 testUserDao.getUser(1).getUserDetails().getHobby());
     }
@@ -152,37 +125,13 @@ public class UserDaoImplTest /*extends HibernateUtilTest*/ {
     public void updateUserStatusTest() {
         testUserDao.updateUserStatus((byte) 0, 2);
         User gotUser = testUserDao.getUser(2);
-
         assertEquals(0, (byte) gotUser.getEnabled());
     }
 
     @Test
     public void deleteUserTest() {
-        jdbcTemplate.update("INSERT INTO User (name, surname, gender, email, password) VALUES (?, ?, ?, ?, ?)",
-                testUser.getName(), testUser.getSurname(), testUser.getGender(),
-                testUser.getEmail(), testUser.getPassword());
-
-        User gotUser = jdbcTemplate.queryForObject("SELECT * FROM user WHERE email = ?",
-                new UserMapper(), testUser.getEmail());
-        assertNotNull(gotUser);
-
-        testUserDao.deleteUser(gotUser.getId());
-
-        try {
-            jdbcTemplate.queryForObject("SELECT * FROM user WHERE id = ?", new UserMapper(), gotUser.getId());
-            fail("Expected EmptyResultDataAccessException");
-        } catch (EmptyResultDataAccessException exception) {
-            assertEquals("Incorrect result size: expected 1, actual 0", exception.getMessage());
-        }
+        testUserDao.deleteUser(4);
+        assertNull(testUserDao.getUser(4));
+        assertEquals(3, testUserDao.getAllUsers().size());
     }
-    @AfterClass
-    public static void afterClass() {
-        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 0");
-
-        jdbcTemplate.execute("TRUNCATE TABLE user");
-        jdbcTemplate.execute("TRUNCATE TABLE user_job");
-        jdbcTemplate.execute("TRUNCATE TABLE user_details");
-
-        jdbcTemplate.update("SET FOREIGN_KEY_CHECKS = 1");
-    }*/
 }
