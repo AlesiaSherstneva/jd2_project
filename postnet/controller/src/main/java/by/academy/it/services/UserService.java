@@ -57,10 +57,10 @@ public class UserService {
     public UserDetails getUserDetails(String email) {
         UserDetails userDetails = userDao.getUserByEmail(email).getUserDetails();
         if (userDetails.getAbout().equals("не указано")) {
-            userDetails.setAbout(" ");
+            userDetails.setAbout("");
         }
         if (userDetails.getHobby().equals("не указано")) {
-            userDetails.setHobby(" ");
+            userDetails.setHobby("");
         }
         return userDetails;
     }
