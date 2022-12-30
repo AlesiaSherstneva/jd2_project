@@ -29,6 +29,8 @@ public class UserServiceTest {
 
     @Before
     public void setUp() {
+        userService = new UserService(userDao);
+
         testUser = new User();
         testUserJob = new UserJob();
         testUserDetails = new UserDetails();
