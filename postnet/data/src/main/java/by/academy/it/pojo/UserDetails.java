@@ -11,11 +11,11 @@ import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.util.Date;
 
+@Entity
+@Table(name = "user_details")
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "user_details")
 public class UserDetails implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -37,7 +37,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void registerUser() {
+    public void registerUserTest() {
         testUser.setUserDetails(new UserDetails());
         userService.registerUser(testUser);
         assertEquals("не указано", testUser.getUserDetails().getAbout());
@@ -54,7 +54,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserById() {
+    public void getUserByIdTest() {
         when(userDao.getUser(anyInt())).thenReturn(testUser);
         assertSame(testUser, userService.getUserById(100));
         for (int i = 1; i <= 15; i++) {
@@ -64,7 +64,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserByEmail() {
+    public void getUserByEmailTest() {
         when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
         assertNull(userService.getUserByEmail(anyString()).getEmail());
 
@@ -75,7 +75,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void changeUsersPassword() {
+    public void changeUsersPasswordTest() {
         when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
         assertThrows(NullPointerException.class, () -> userService.changeUsersPassword(anyString()));
 
@@ -86,7 +86,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updateUser() {
+    public void updateUserTest() {
         userService.updateUser(testUser);
         assertEquals("{noop}null", testUser.getPassword());
 
@@ -98,7 +98,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserJob() {
+    public void getUserJobTest() {
         when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
         assertNull(userService.getUserJob(anyString()));
 
@@ -110,7 +110,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updateUserJob() {
+    public void updateUserJobTest() {
         for(int i = 0; i < 5; i++) {
             userService.updateUserJob(new UserJob());
         }
@@ -118,7 +118,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserDetails() {
+    public void getUserDetailsTest() {
         when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
         assertThrows(NullPointerException.class, () -> userService.getUserDetails(anyString()));
 
@@ -138,7 +138,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updateUserDetails() {
+    public void updateUserDetailsTest() {
         userService.updateUserDetails(testUserDetails);
         assertEquals("не указано", testUserDetails.getAbout());
         assertEquals("не указано", testUserDetails.getHobby());

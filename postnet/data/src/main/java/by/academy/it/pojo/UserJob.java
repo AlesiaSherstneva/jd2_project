@@ -8,11 +8,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "user_job")
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "user_job")
 public class UserJob implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

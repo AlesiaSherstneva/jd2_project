@@ -43,7 +43,7 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void getAllUsers() {
+    public void getAllUsersTest() {
         when(userDao.getAllUsers()).thenReturn(testUserList);
         assertNotNull(adminService.getAllUsers());
         assertEquals(5, adminService.getAllUsers().size());
@@ -52,20 +52,20 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void banUser() {
+    public void banUserTest() {
         adminService.banUser(testUser.getId());
         verify(userDao, times(1)).updateUserStatus(enabled, testUser.getId());
     }
 
     @Test
-    public void unbanUser() {
+    public void unbanUserTest() {
         enabled = 1;
         adminService.unbanUser(testUser.getId());
         verify(userDao, times(1)).updateUserStatus(enabled, testUser.getId());
     }
 
     @Test
-    public void deleteUser() {
+    public void deleteUserTest() {
         for (int i = 1; i <= 10; i++) {
             adminService.deleteUser(i);
         }
