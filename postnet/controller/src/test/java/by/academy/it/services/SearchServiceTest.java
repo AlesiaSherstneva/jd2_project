@@ -2,6 +2,7 @@ package by.academy.it.services;
 
 import by.academy.it.dao.UserDao;
 import by.academy.it.pojo.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,34 +27,54 @@ public class SearchServiceTest {
     @InjectMocks
     private SearchService searchService;
 
-    private List<User> testUserList;
+    private List<User> testUsers;
 
     @Before
     public void setUp() {
-        searchService = new SearchService(userDao);
-        testUserList = new ArrayList<>();
+        testUsers = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
-            testUserList.add(new User());
+            testUsers.add(new User());
         }
     }
 
     @Test
-    public void pagesCountTest() {
-        when(userDao.searchUsers(anyString())).thenReturn(testUserList);
-        assertEquals(7, searchService.pagesCount(anyString()));
-
+    public void pagesCountWithEmptyStringTest() {
+        // given
         when(userDao.searchUsers(anyString())).thenReturn(new ArrayList<>());
-        when(userDao.getAllUsers()).thenReturn(testUserList);
-        assertEquals(7, searchService.pagesCount(anyString()));
-
-        verify(userDao, times(2)).searchUsers(anyString());
+        when(userDao.getAllUsers()).thenReturn(testUsers);
+        // when
+        int pagedUsersSize = searchService.pagesCount(anyString());
+        // then
+        assertEquals(7, pagedUsersSize);
+        verify(userDao, times(1)).searchUsers(anyString());
         verify(userDao, times(1)).getAllUsers();
     }
 
     @Test
+    public void pagesCountWithNotEmptyStringTest() {
+        // given
+        testUsers.add(new User());
+        when(userDao.searchUsers(anyString())).thenReturn(testUsers);
+        // when
+        int pagedUsersSize = searchService.pagesCount(anyString());
+        // then
+        assertEquals(8, pagedUsersSize);
+        verify(userDao, times(1)).searchUsers(anyString());
+    }
+
+    @Test
     public void pageUsersTest() {
-        when(userDao.pageUsers(anyString(), anyInt())).thenReturn(testUserList);
-        assertSame(testUserList, searchService.pageUsers(anyString(), anyInt()));
+        // given
+        when(userDao.pageUsers(anyString(), anyInt())).thenReturn(testUsers);
+        // when
+        List<User> pagedUsers = searchService.pageUsers(anyString(), anyInt());
+        // then
+        assertSame(testUsers, pagedUsers);
         verify(userDao, times(1)).pageUsers(anyString(), anyInt());
+    }
+
+    @After
+    public void tearDown() {
+        verifyNoMoreInteractions(userDao);
     }
 }

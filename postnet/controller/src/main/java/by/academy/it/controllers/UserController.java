@@ -5,6 +5,7 @@ import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
 import by.academy.it.services.UserService;
 import by.academy.it.validators.UniqueEmailValidator;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -18,13 +19,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
-
 @Controller
 public class UserController {
     private final UserService userService;
     private final UniqueEmailValidator validator;
 
-    User registeredUser = new User();
+    @Getter
+    private User registeredUser = new User();
 
     @Autowired
     public UserController(UserService userService, UniqueEmailValidator validator) {

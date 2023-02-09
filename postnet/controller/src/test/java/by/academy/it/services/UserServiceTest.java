@@ -4,12 +4,15 @@ import by.academy.it.dao.UserDao;
 import by.academy.it.pojo.User;
 import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Random;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -29,126 +32,167 @@ public class UserServiceTest {
 
     @Before
     public void setUp() {
-        userService = new UserService(userDao);
-
         testUser = new User();
         testUserJob = new UserJob();
         testUserDetails = new UserDetails();
     }
 
     @Test
-    public void registerUserTest() {
-        testUser.setUserDetails(new UserDetails());
+    public void registerUserWithEmptyDetailsTest() {
+        // given
+        testUser.setUserDetails(testUserDetails);
+        // when
         userService.registerUser(testUser);
+        // then
         assertEquals("не указано", testUser.getUserDetails().getAbout());
         assertEquals("не указано", testUser.getUserDetails().getHobby());
+        verify(userDao, times(1)).setUser(testUser);
+    }
 
+    @Test
+    public void registerUserWithNotEmptyDetailsTest() {
+        // given
         testUserDetails.setAbout("test about");
         testUserDetails.setHobby("test hobby");
         testUser.setUserDetails(testUserDetails);
+        // when
         userService.registerUser(testUser);
+        // then
         assertNotEquals("не указано", testUser.getUserDetails().getAbout());
         assertNotEquals("не указано", testUser.getUserDetails().getHobby());
-
-        verify(userDao, times(2)).setUser(any(User.class));
+        verify(userDao, times(1)).setUser(testUser);
     }
 
     @Test
     public void getUserByIdTest() {
+        // given
         when(userDao.getUser(anyInt())).thenReturn(testUser);
-        assertSame(testUser, userService.getUserById(100));
-        for (int i = 1; i <= 15; i++) {
+        // when
+        User receivedUser = userService.getUserById(new Random().nextInt(100));
+        for (int i = 1; i <= 5; i++) {
             userService.getUserById(i);
         }
-        verify(userDao, times(16)).getUser(anyInt());
+        // then
+        assertSame(testUser, receivedUser);
+        verify(userDao, times(6)).getUser(anyInt());
     }
 
     @Test
     public void getUserByEmailTest() {
-        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
-        assertNull(userService.getUserByEmail(anyString()).getEmail());
-
+        // given
         testUser.setEmail("test@test.test");
-        assertEquals("test@test.test", userService.getUserByEmail(anyString()).getEmail());
-
-        verify(userDao, times(2)).getUserByEmail(anyString());
+        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
+        // when
+        User receivedUser = userService.getUserByEmail(anyString());
+        // then
+        assertEquals("test@test.test", receivedUser.getEmail());
+        verify(userDao, times(1)).getUserByEmail(anyString());
     }
 
     @Test
     public void changeUsersPasswordTest() {
-        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
-        assertThrows(NullPointerException.class, () -> userService.changeUsersPassword(anyString()));
-
+        // given
         testUser.setPassword("{noop}password");
-        assertEquals("password", userService.changeUsersPassword(anyString()).getPassword());
-
-        verify(userDao, times(2)).getUserByEmail(anyString());
+        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
+        // when
+        User receivedUser = userService.changeUsersPassword(anyString());
+        // then
+        assertEquals("password", receivedUser.getPassword());
+        verify(userDao, times(1)).getUserByEmail(anyString());
     }
 
     @Test
     public void updateUserTest() {
-        userService.updateUser(testUser);
-        assertEquals("{noop}null", testUser.getPassword());
-
+        // given
         testUser.setPassword("password");
+        // when
         userService.updateUser(testUser);
+        // then
         assertEquals("{noop}password", testUser.getPassword());
-
-        verify(userDao, times(2)).updateUser(any(User.class));
+        verify(userDao, times(1)).updateUser(any(User.class));
     }
 
     @Test
     public void getUserJobTest() {
-        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
-        assertNull(userService.getUserJob(anyString()));
-
+        // given
+        testUserJob.setPostoffice("220136");
+        testUserJob.setRole("оператор связи");
         testUser.setUserJob(testUserJob);
-        assertNotNull(userService.getUserJob(anyString()));
-        assertEquals(testUserJob, userService.getUserJob(anyString()));
-
-        verify(userDao, times(3)).getUserByEmail(anyString());
+        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
+        // when
+        UserJob receivedUserJob = userService.getUserJob(anyString());
+        // then
+        assertEquals(testUserJob.getPostoffice(), receivedUserJob.getPostoffice());
+        assertEquals(testUserJob.getRole(), receivedUserJob.getRole());
+        assertEquals(testUserJob.getUser(), receivedUserJob.getUser());
+        verify(userDao, times(1)).getUserByEmail(anyString());
     }
 
     @Test
     public void updateUserJobTest() {
+        // given, when
         for(int i = 0; i < 5; i++) {
             userService.updateUserJob(new UserJob());
         }
+        // then
         verify(userDao, times(5)).updateUserJob(any(UserJob.class));
     }
 
     @Test
-    public void getUserDetailsTest() {
-        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
-        assertThrows(NullPointerException.class, () -> userService.getUserDetails(anyString()));
-
+    public void getUserWithEmptyDetailsTest() {
+        // given
         testUserDetails.setAbout("не указано");
         testUserDetails.setHobby("не указано");
         testUser.setUserDetails(testUserDetails);
-        assertEquals("", userService.getUserDetails(anyString()).getAbout());
-        assertEquals("", userService.getUserDetails(anyString()).getHobby());
-
-        testUserDetails.setAbout("test about");
-        testUserDetails.setHobby("test hobby");
-        testUser.setUserDetails(testUserDetails);
-        assertNotEquals("", userService.getUserDetails(anyString()).getAbout());
-        assertNotEquals("", userService.getUserDetails(anyString()).getHobby());
-
-        verify(userDao, times(5)).getUserByEmail(anyString());
+        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
+        // when
+        UserDetails receivedUserDetails = userService.getUserDetails(anyString());
+        // then
+        assertEquals("", receivedUserDetails.getAbout());
+        assertEquals("", receivedUserDetails.getHobby());
+        verify(userDao, times(1)).getUserByEmail(anyString());
     }
 
     @Test
-    public void updateUserDetailsTest() {
-        userService.updateUserDetails(testUserDetails);
-        assertEquals("не указано", testUserDetails.getAbout());
-        assertEquals("не указано", testUserDetails.getHobby());
-
+    public void getUserWithNotEmptyDetailsTest() {
+        // given
         testUserDetails.setAbout("test about");
         testUserDetails.setHobby("test hobby");
+        testUser.setUserDetails(testUserDetails);
+        when(userDao.getUserByEmail(anyString())).thenReturn(testUser);
+        // when
+        UserDetails receivedUserDetails = userService.getUserDetails(anyString());
+        // then
+        assertNotEquals("", receivedUserDetails.getAbout());
+        assertNotEquals("", receivedUserDetails.getHobby());
+        verify(userDao, times(1)).getUserByEmail(anyString());
+    }
+
+    @Test
+    public void updateUserWithEmptyDetailsTest() {
+        // given, when
         userService.updateUserDetails(testUserDetails);
+        // then
+        assertEquals("не указано", testUserDetails.getAbout());
+        assertEquals("не указано", testUserDetails.getHobby());
+        verify(userDao, times(1)).updateUserDetails(any(UserDetails.class));
+    }
+
+    @Test
+    public void updateUserWithNotEmptyDetailsTest() {
+        // given
+        testUserDetails.setAbout("test about");
+        testUserDetails.setHobby("test hobby");
+        // when
+        userService.updateUserDetails(testUserDetails);
+        // then
         assertNotEquals("не указано", testUserDetails.getAbout());
         assertNotEquals("не указано", testUserDetails.getHobby());
+        verify(userDao, times(1)).updateUserDetails(any(UserDetails.class));
+    }
 
-        verify(userDao, times(2)).updateUserDetails(any(UserDetails.class));
+    @After
+    public void tearDown() {
+        verifyNoMoreInteractions(userDao);
     }
 }

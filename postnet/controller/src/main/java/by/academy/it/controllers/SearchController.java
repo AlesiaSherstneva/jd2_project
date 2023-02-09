@@ -25,13 +25,13 @@ public class SearchController {
     }
 
     @GetMapping(value = "/{page}")
-    public String showUsers(@PathVariable int page, @RequestParam String searchString, Model model) {
+    public String showUsers(@PathVariable("page") int page, @RequestParam String searchString, Model model) {
         model.addAttribute("startpage", 1);
         model.addAttribute("endpage", Math.ceil((double) searchService.pagesCount(searchString) / 3));
         model.addAttribute("search", searchString);
         model.addAttribute("currentpage", page);
         model.addAttribute("users", searchService.pageUsers(searchString, page - 1));
-        return "search/search-all";
+        return "/search/search-all";
     }
 
     @GetMapping("/user/{id}")

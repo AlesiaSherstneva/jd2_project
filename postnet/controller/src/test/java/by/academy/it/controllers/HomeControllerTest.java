@@ -1,55 +1,81 @@
 package by.academy.it.controllers;
 
-import by.academy.it.config.WebAppConfig;
-import by.academy.it.services.AdminService;
-import by.academy.it.services.UserService;
-import org.junit.BeforeClass;
+import by.academy.it.pojo.User;
+import by.academy.it.util.TestControllerInit;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.ArrayList;
+import java.util.List;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration(classes = WebAppConfig.class)
-/*@DirtiesContext*/
-public class HomeControllerTest {
-    private static MockMvc mockMvc;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-    @Mock
-    private static UserService userService;
-
-    @Mock
-    private static AdminService adminService;
-
-    @BeforeClass
-    public static void beforeClass() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/view/");
-        viewResolver.setSuffix(".jsp");
-
+@RunWith(MockitoJUnitRunner.class)
+public class HomeControllerTest extends TestControllerInit {
+    @Before
+    public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(new HomeController(userService, adminService))
                 .setViewResolvers(viewResolver)
                 .build();
     }
 
     @Test
-    public void login() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/login"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/view/login.jsp"));
+    public void loginTest() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpectAll(
+                        model().size(0),
+                        status().isOk(),
+                        forwardedUrl("/WEB-INF/view/login.jsp"),
+                        redirectedUrl(null)
+                );
     }
 
     @Test
-    public void profile() {
+    public void userProfileTest() throws Exception {
+        when(principal.getName()).thenReturn("Some Name");
+        when(userService.getUserByEmail(anyString())).thenReturn(testUser);
+        mockMvc.perform(get("/")
+                        .principal(principal))
+                .andExpectAll(
+                        model().size(1),
+                        model().attribute("user", testUser),
+                        model().attributeDoesNotExist("users"),
+                        status().isOk(),
+                        forwardedUrl("/WEB-INF/view/registered/user-profile.jsp"),
+                        redirectedUrl(null)
+                );
+        verify(userService, times(1)).getUserByEmail(anyString());
+        verify(principal, times(3)).getName();
+    }
+
+    @Test
+    public void adminProfileTest() throws Exception {
+        List<User> testUsers = new ArrayList<>();
+        when(principal.getName()).thenReturn("admin");
+        when(adminService.getAllUsers()).thenReturn(testUsers);
+        mockMvc.perform(get("/")
+                        .principal(principal))
+                .andExpectAll(
+                        model().size(1),
+                        model().attribute("users", testUsers),
+                        model().attributeDoesNotExist("user"),
+                        status().isOk(),
+                        forwardedUrl("/WEB-INF/view/administrate/admin-page.jsp"),
+                        redirectedUrl(null)
+                );
+        verify(adminService, times(1)).getAllUsers();
+        verify(principal, times(2)).getName();
+    }
+
+    @After
+    public void tearDown() {
+        verifyNoMoreInteractions(userService, adminService, principal);
     }
 }

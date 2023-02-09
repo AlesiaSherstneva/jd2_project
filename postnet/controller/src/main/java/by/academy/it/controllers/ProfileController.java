@@ -19,12 +19,12 @@ import java.security.Principal;
 @Controller
 public class ProfileController {
     private final UserService userService;
-    private final UniqueEmailValidator uniqueEmailValidator;
+    private final UniqueEmailValidator validator;
 
     @Autowired
-    public ProfileController(UniqueEmailValidator uniqueEmailValidator, UserService userService) {
-        this.uniqueEmailValidator = uniqueEmailValidator;
+    public ProfileController(UserService userService, UniqueEmailValidator validator) {
         this.userService = userService;
+        this.validator = validator;
     }
 
     @InitBinder
@@ -45,7 +45,7 @@ public class ProfileController {
     public String firstConfirm(@ModelAttribute("user") @Valid User user,
                                BindingResult bindingResult,
                                Principal principal) {
-        uniqueEmailValidator.validate(user, bindingResult);
+        validator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "/registered/edit-1";
         }
