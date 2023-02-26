@@ -54,10 +54,10 @@
     <changeSet id="4" author="a.sherstneva">
         <sql>
             INSERT INTO user (name, surname, gender, email, password, authority) VALUES
-            ("TestName1", "TestSurname1", "женский", "test1@test.test", "Test1234", "REGISTERED"),
-            ("TestName2", "TestSurname2", "мужской", "test2@test.test", "Test1234", "REGISTERED"),
-            ("ТестИмя3", "ТестФамилия3", "женский", "test3@test.test", "Test1234", "REGISTERED"),
-            ("ТестИмя4", "ТестФамилия4", "мужской", "test4@test.test", "Test1234", "REGISTERED")
+            ("TestName", "TestSurname", "женский", "test1@test.test", "Test1234", "REGISTERED"),
+            ("TestName", "TestSurname", "мужской", "test2@test.test", "Test1234", "REGISTERED"),
+            ("ТестИмя", "ТестФамилия", "женский", "test3@test.test", "Test1234", "REGISTERED"),
+            ("ТестИмя", "ТестФамилия", "мужской", "test4@test.test", "Test1234", "REGISTERED")
         </sql>
     </changeSet>
 

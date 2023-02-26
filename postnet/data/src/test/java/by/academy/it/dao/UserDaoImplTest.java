@@ -6,16 +6,15 @@ import by.academy.it.pojo.UserDetails;
 import by.academy.it.pojo.UserJob;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -23,115 +22,143 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestSpringConfig.class)
 @Transactional
-@FixMethodOrder(MethodSorters.JVM)
 public class UserDaoImplTest {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private UserDao testUserDao;
+    private UserDao userDao;
 
     @Before
     public void setUp() {
-        testUserDao = new UserDaoImpl(sessionFactory);
+        userDao = new UserDaoImpl(sessionFactory);
     }
 
     @Test
     public void setUserTest() {
-        User testUser = new User("testName", "testSurname", "женский", "test@test.test", "Test1234");
+        // given
+        User testUser = new User("Testname", "Testsurname", "женский",
+                "test@test.test", "Test1234");
         testUser.setUserJob(new UserJob("Минск-50, Главпочтамт", "почтальон"));
-        testUser.setUserDetails(new UserDetails(new java.sql.Date(594667996870L), "test user", "testing"));
-        testUserDao.setUser(testUser);
-
-        User gotUser = testUserDao.getUserByEmail(testUser.getEmail());
-        assertNotNull(gotUser);
-        assertSame(testUser, gotUser);
+        testUser.setUserDetails(new UserDetails(new Date(987654321000L),
+                "test user", "testing"));
+        // when
+        userDao.setUser(testUser);
+        // then
+        User receivedUser = userDao.getUserByEmail(testUser.getEmail());
+        assertSame(testUser, receivedUser);
     }
 
     @Test
     public void getUserTest() {
-        User gotUser = testUserDao.getUser(3);
-        assertEquals("ТестФамилия3", gotUser.getSurname());
+        // given, when
+        User gotUser = userDao.getUser(3);
+        // then
+        assertEquals("ТестФамилия", gotUser.getSurname());
     }
 
     @Test
     public void getAllUsersTest() {
-        List<User> testUsers = new ArrayList<>(testUserDao.getAllUsers());
+        // given, when
+        List<User> testUsers = new ArrayList<>(userDao.getAllUsers());
+        // then
         assertEquals(4, testUsers.size());
     }
 
     @Test
     public void getUserByEmailTest() {
-        User gotUser = testUserDao.getUserByEmail("test1@test.test");
-        assertEquals("TestName1", gotUser.getName());
+        // given, when
+        User gotUser = userDao.getUserByEmail("test1@test.test");
+        // then
+        assertEquals("TestName", gotUser.getName());
     }
 
     @Test
     public void searchUsersTest() {
-        List<User> users = new ArrayList<>(testUserDao.searchUsers("Test"));
-        assertEquals(2, users.size());
-
-        users = testUserDao.searchUsers("БИЗНЕС");
-        assertEquals("ТестИмя4", users.get(0).getName());
-
-        users = testUserDao.searchUsers("спец");
-        assertEquals(2, users.size());
+        // given, when
+        List<User> usersPattern = new ArrayList<>(userDao.searchUsers("Test"));
+        List<User> upperPattern = new ArrayList<>(userDao.searchUsers("БИЗНЕС"));
+        List<User> lowerPattern = userDao.searchUsers("спец");
+        // then
+        assertEquals(2, usersPattern.size());
+        assertEquals("ТестИмя", upperPattern.get(0).getName());
+        assertEquals(2, lowerPattern.size());
     }
 
     @Test
     public void pageUsersTest() {
-        List<User> users = new ArrayList<>(testUserDao.pageUsers("", 0));
-        assertEquals(3, users.size());
-
-        users = testUserDao.pageUsers("Test", 1);
-        assertEquals(0, users.size());
+        // given, when
+        List<User> firstPageUsers = new ArrayList<>(userDao.pageUsers("", 0));
+        List<User> emptySecondPage = userDao.pageUsers("Test", 1);
+        // then
+        assertEquals(3, firstPageUsers.size());
+        assertEquals(0, emptySecondPage.size());
     }
 
     @Test
     public void updateUserTest() {
-        User gotUser = testUserDao.getUserByEmail("test3@test.test");
-        assertNotNull(gotUser);
-        assertEquals("женский", gotUser.getGender());
-
-        gotUser.setGender("мужской");
-        testUserDao.updateUser(gotUser);
-
-        gotUser = testUserDao.getUserByEmail("test3@test.test");
-        assertNotNull(gotUser);
-        assertEquals("мужской", gotUser.getGender());
+        // given
+        User receivedUser = userDao.getUserByEmail("test3@test.test");
+        assertEquals("женский", receivedUser.getGender());
+        // when
+        receivedUser.setGender("мужской");
+        userDao.updateUser(receivedUser);
+        // then
+        receivedUser = userDao.getUserByEmail("test3@test.test");
+        assertEquals("мужской", receivedUser.getGender());
     }
 
     @Test
     public void updateUserJobTest() {
-        User gotUser = testUserDao.getUser(2);
-        UserJob gotUserJob = gotUser.getUserJob();
-        assertEquals("оператор связи", gotUserJob.getRole());
-
-        gotUserJob.setRole("почтальон");
-        testUserDao.updateUserJob(gotUserJob);
-        assertEquals("почтальон", testUserDao.getUser(2).getUserJob().getRole());
+        // given
+        UserJob receivedUserJob = userDao.getUser(2).getUserJob();
+        assertEquals("Минск-2", receivedUserJob.getPostoffice());
+        assertEquals("оператор связи", receivedUserJob.getRole());
+        // when
+        receivedUserJob.setPostoffice("Минск-4");
+        receivedUserJob.setRole("почтальон");
+        userDao.updateUserJob(receivedUserJob);
+        // then
+        receivedUserJob = userDao.getUser(2).getUserJob();
+        assertEquals("Минск-4", receivedUserJob.getPostoffice());
+        assertEquals("почтальон", receivedUserJob.getRole());
     }
 
     @Test
     public void updateUserDetailsTest() {
-        User gotUser = testUserDao.getUser(1);
-        UserDetails gotUserDetails = gotUser.getUserDetails();
-        gotUserDetails.setHobby("Меняю пол без хирургического вмешательства");
-        testUserDao.updateUserDetails(gotUserDetails);
-        assertEquals("Меняю пол без хирургического вмешательства",
-                testUserDao.getUser(1).getUserDetails().getHobby());
+        // given
+        UserDetails receivedUserDetails = userDao.getUser(1).getUserDetails();
+        assertEquals("testabout1", receivedUserDetails.getAbout());
+        assertEquals("testhobby1", receivedUserDetails.getHobby());
+        // when
+        receivedUserDetails.setAbout("another test about");
+        receivedUserDetails.setHobby("another test hobby");
+        userDao.updateUserDetails(receivedUserDetails);
+        // then
+        receivedUserDetails = userDao.getUser(1).getUserDetails();
+        assertEquals("another test about", receivedUserDetails.getAbout());
+        assertEquals("another test hobby", receivedUserDetails.getHobby());
     }
 
     @Test
     public void updateUserStatusTest() {
-        testUserDao.updateUserStatus((byte) 0, 2);
-        User gotUser = testUserDao.getUser(2);
-        assertEquals(0, (byte) gotUser.getEnabled());
+        // given
+        User receivedUser = userDao.getUser(2);
+        assertEquals(1, (byte) receivedUser.getEnabled());
+        // when
+        userDao.updateUserStatus((byte) 0, 2);
+        // then
+        assertEquals(0, (byte) receivedUser.getEnabled());
     }
 
     @Test
     public void deleteUserTest() {
-        testUserDao.deleteUser(4);
-        assertNull(testUserDao.getUser(4));
-        assertEquals(3, testUserDao.getAllUsers().size());
+        // given
+        User receivedUser = userDao.getUser(4);
+        assertNotNull(receivedUser);
+        // when
+        userDao.deleteUser(4);
+        // then
+        receivedUser = userDao.getUser(4);
+        assertNull(receivedUser);
     }
 }
