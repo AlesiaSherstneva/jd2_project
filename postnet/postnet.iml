@@ -82,18 +82,18 @@
     <orderEntry type="library" name="Maven: org.hibernate.validator:hibernate-validator:6.2.1.Final" level="project" />
     <orderEntry type="library" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml:classmate:1.5.1" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-core:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.23" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.23" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.3.23" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-core:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.27" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.3.27" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.3.27" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.7.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.7.3" level="project" />

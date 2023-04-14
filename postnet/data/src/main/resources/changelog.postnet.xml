@@ -44,6 +44,7 @@
             birthday DATE,
             about TEXT,
             hobby TEXT,
+            photo BLOB,
             FOREIGN KEY (user_id) REFERENCES user(id)
             ON DELETE CASCADE
             ON UPDATE CASCADE
