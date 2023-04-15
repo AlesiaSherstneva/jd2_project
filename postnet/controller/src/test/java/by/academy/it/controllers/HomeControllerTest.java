@@ -41,6 +41,7 @@ public class HomeControllerTest extends TestControllerInit {
     public void userProfileTest() throws Exception {
         when(principal.getName()).thenReturn("Some Name");
         when(userService.getUserByEmail(anyString())).thenReturn(testUser);
+
         mockMvc.perform(get("/")
                         .principal(principal))
                 .andExpectAll(
@@ -51,6 +52,7 @@ public class HomeControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/registered/user-profile.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(userService, times(1)).getUserByEmail(anyString());
         verify(principal, times(3)).getName();
     }
@@ -60,6 +62,7 @@ public class HomeControllerTest extends TestControllerInit {
         List<User> testUsers = new ArrayList<>();
         when(principal.getName()).thenReturn("admin");
         when(adminService.getAllUsers()).thenReturn(testUsers);
+
         mockMvc.perform(get("/")
                         .principal(principal))
                 .andExpectAll(
@@ -70,6 +73,7 @@ public class HomeControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/administrate/admin-page.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(adminService, times(1)).getAllUsers();
         verify(principal, times(2)).getName();
     }

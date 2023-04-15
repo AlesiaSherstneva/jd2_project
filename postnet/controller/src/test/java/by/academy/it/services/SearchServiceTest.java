@@ -32,9 +32,7 @@ public class SearchServiceTest {
     @Before
     public void setUp() {
         testUsers = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            testUsers.add(new User());
-        }
+        for (int i = 0; i < 7; i++) testUsers.add(new User());
     }
 
     @Test

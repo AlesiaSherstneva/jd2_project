@@ -40,6 +40,7 @@ public class ProfileControllerTest extends TestControllerInit {
     public void firstEditTest() throws Exception {
         when(principal.getName()).thenReturn("somename@mail.com");
         when(userService.changeUsersPassword(anyString())).thenReturn(testUser);
+
         mockMvc.perform(get("/edit-1")
                         .principal(principal))
                 .andExpectAll(
@@ -49,6 +50,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/registered/edit-1.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(userService, times(1)).changeUsersPassword(anyString());
         verify(principal, times(2)).getName();
     }
@@ -56,6 +58,7 @@ public class ProfileControllerTest extends TestControllerInit {
     @Test
     public void editEmptyUserTest() throws Exception {
         User emptyUser = new User();
+
         mockMvc.perform(post("/confirm-1")
                         .flashAttr("user", emptyUser)
                         .principal(principal))
@@ -67,6 +70,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/registered/edit-1.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(principal, times(1)).getName();
     }
 
@@ -74,6 +78,7 @@ public class ProfileControllerTest extends TestControllerInit {
     public void editNotValidUserTest() throws Exception {
         testUser.setName("wrong name");
         testUser.setSurname("1234pass");
+
         mockMvc.perform(post("/confirm-1")
                         .flashAttr("user", testUser)
                         .principal(principal))
@@ -85,12 +90,14 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/registered/edit-1.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(principal, times(1)).getName();
     }
 
     @Test
     public void editUserEmailTest() throws Exception {
         when(principal.getName()).thenReturn("anothername@mail.com");
+
         mockMvc.perform(post("/confirm-1")
                         .flashAttr("user", testUser)
                         .principal(principal))
@@ -102,6 +109,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl(null),
                         redirectedUrl("/login?logout")
                 );
+
         verify(userService, times(1)).updateUser(any(User.class));
         verify(principal, times(2)).getName();
     }
@@ -109,6 +117,7 @@ public class ProfileControllerTest extends TestControllerInit {
     @Test
     public void firstConfirmTest() throws Exception {
         when(principal.getName()).thenReturn("somename@mail.com");
+
         mockMvc.perform(post("/confirm-1")
                         .flashAttr("user", testUser)
                         .principal(principal))
@@ -120,6 +129,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl(null),
                         redirectedUrl("/")
                 );
+
         verify(userService, times(1)).updateUser(any(User.class));
         verify(principal, times(2)).getName();
     }
@@ -128,6 +138,7 @@ public class ProfileControllerTest extends TestControllerInit {
     public void secondEditTest() throws Exception {
         when(principal.getName()).thenReturn("somename@mail.com");
         when(userService.getUserJob(anyString())).thenReturn(testUserJob);
+
         mockMvc.perform(get("/edit-2")
                         .principal(principal))
                 .andExpectAll(
@@ -137,6 +148,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         status().isOk(),
                         forwardedUrl("/WEB-INF/view/registered/edit-2.jsp")
                 );
+
         verify(userService, times(1)).getUserJob(anyString());
         verify(principal, times(2)).getName();
     }
@@ -144,6 +156,7 @@ public class ProfileControllerTest extends TestControllerInit {
     @Test
     public void editEmptyUserJobTest() throws Exception {
         UserJob emptyUserJob = new UserJob();
+
         mockMvc.perform(patch("/confirm-2")
                         .flashAttr("userjob", emptyUserJob)
                         .principal(principal))
@@ -155,6 +168,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/registered/edit-2.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(principal, times(1)).getName();
     }
 
@@ -163,6 +177,7 @@ public class ProfileControllerTest extends TestControllerInit {
         when(principal.getName()).thenReturn("somename@mail.com");
         when(userService.getUserByEmail(anyString())).thenReturn(testUser);
         assertNull(testUserJob.getUser());
+
         mockMvc.perform(patch("/confirm-2")
                         .flashAttr("userjob", testUserJob)
                         .principal(principal))
@@ -174,6 +189,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl(null),
                         redirectedUrl("/")
                 );
+
         assertEquals(testUser, testUserJob.getUser());
         verify(userService, times(1)).getUserByEmail(anyString());
         verify(userService, times(1)).updateUserJob(any(UserJob.class));
@@ -184,6 +200,7 @@ public class ProfileControllerTest extends TestControllerInit {
     public void thirdEditTest() throws Exception {
         when(principal.getName()).thenReturn("somename@mail.com");
         when(userService.getUserDetails(anyString())).thenReturn(testUserDetails);
+
         mockMvc.perform(get("/edit-3")
                         .principal(principal))
                 .andExpectAll(
@@ -193,6 +210,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         status().isOk(),
                         forwardedUrl("/WEB-INF/view/registered/edit-3.jsp")
                 );
+
         verify(userService, times(1)).getUserDetails(anyString());
         verify(principal, times(2)).getName();
     }
@@ -200,6 +218,7 @@ public class ProfileControllerTest extends TestControllerInit {
     @Test
     public void editEmptyUserDetailsTest() throws Exception {
         UserDetails emptyUserDetails = new UserDetails();
+
         mockMvc.perform(patch("/confirm-3")
                         .flashAttr("userdetails", emptyUserDetails)
                         .principal(principal))
@@ -211,6 +230,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/registered/edit-3.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(principal, times(1)).getName();
     }
 
@@ -219,6 +239,7 @@ public class ProfileControllerTest extends TestControllerInit {
         when(principal.getName()).thenReturn("somename@mail.com");
         when(userService.getUserByEmail(anyString())).thenReturn(testUser);
         assertNull(testUserDetails.getUser());
+
         mockMvc.perform(patch("/confirm-3")
                         .flashAttr("userdetails", testUserDetails)
                         .principal(principal))
@@ -230,6 +251,7 @@ public class ProfileControllerTest extends TestControllerInit {
                         forwardedUrl(null),
                         redirectedUrl("/")
                 );
+
         assertEquals(testUser, testUserDetails.getUser());
         verify(userService, times(1)).getUserByEmail(anyString());
         verify(userService, times(1)).updateUserDetails(any(UserDetails.class));

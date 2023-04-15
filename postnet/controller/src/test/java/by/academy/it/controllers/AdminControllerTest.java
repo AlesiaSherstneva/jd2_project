@@ -35,6 +35,7 @@ public class AdminControllerTest extends TestControllerInit {
                     .andExpectAll(
                             model().size(0),
                             status().is3xxRedirection(),
+                            forwardedUrl(null),
                             redirectedUrl("/")
                     );
         }
@@ -49,6 +50,7 @@ public class AdminControllerTest extends TestControllerInit {
                     .andExpectAll(
                             model().size(0),
                             status().is3xxRedirection(),
+                            forwardedUrl(null),
                             redirectedUrl("/")
                     );
         }
@@ -63,6 +65,7 @@ public class AdminControllerTest extends TestControllerInit {
                     .andExpectAll(
                             model().size(0),
                             status().is3xxRedirection(),
+                            forwardedUrl(null),
                             redirectedUrl("/")
                     );
         }

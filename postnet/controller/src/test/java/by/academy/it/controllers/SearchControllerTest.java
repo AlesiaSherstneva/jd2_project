@@ -28,6 +28,7 @@ public class SearchControllerTest extends TestControllerInit {
         mockMvc = MockMvcBuilders.standaloneSetup(new SearchController(userService, searchService))
                 .setViewResolvers(viewResolver)
                 .build();
+
         random = new Random();
         testUser = new User();
     }
@@ -38,6 +39,7 @@ public class SearchControllerTest extends TestControllerInit {
         List<User> testUsers = new ArrayList<>();
         when(searchService.pagesCount(anyString())).thenReturn(pagesCount);
         when(searchService.pageUsers(anyString(), anyInt())).thenReturn(testUsers);
+
         mockMvc.perform(get("/users/{page}", page)
                         .param("searchString", anyString()))
                 .andExpectAll(
@@ -51,6 +53,7 @@ public class SearchControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/search/search-all.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(searchService, times(1)).pagesCount(anyString());
         verify(searchService, times(1)).pageUsers(anyString(), anyInt());
     }
@@ -62,6 +65,7 @@ public class SearchControllerTest extends TestControllerInit {
         when(principal.getName()).thenReturn("somename@mail.com");
         when(userService.getUserById(anyInt())).thenReturn(testUser);
         when(userService.getUserByEmail(anyString())).thenReturn(testUser);
+
         mockMvc.perform(get("/users/user/{id}", id)
                         .principal(principal))
                 .andExpectAll(
@@ -71,6 +75,7 @@ public class SearchControllerTest extends TestControllerInit {
                         forwardedUrl(null),
                         redirectedUrl("/")
                 );
+
         verify(principal, times(3)).getName();
         verify(userService, times(1)).getUserById(anyInt());
         verify(userService, times(1)).getUserByEmail(anyString());
@@ -83,6 +88,7 @@ public class SearchControllerTest extends TestControllerInit {
         when(principal.getName()).thenReturn("somename@mail.com");
         when(userService.getUserById(anyInt())).thenReturn(testUser);
         when(userService.getUserByEmail(anyString())).thenReturn(testUser);
+
         mockMvc.perform(get("/users/user/{id}", id)
                         .principal(principal))
                 .andExpectAll(
@@ -92,6 +98,7 @@ public class SearchControllerTest extends TestControllerInit {
                         forwardedUrl("/WEB-INF/view/search/search-one.jsp"),
                         redirectedUrl(null)
                 );
+
         verify(principal, times(3)).getName();
         verify(userService, times(1)).getUserById(anyInt());
         verify(userService, times(1)).getUserByEmail(anyString());

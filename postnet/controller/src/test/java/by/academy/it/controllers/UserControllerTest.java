@@ -45,7 +45,8 @@ public class UserControllerTest extends TestControllerInit {
                 .andExpectAll(
                         model().attribute("user", testUser),
                         status().isOk(),
-                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp")
+                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp"),
+                        redirectedUrl(null)
                 );
     }
 
@@ -60,8 +61,10 @@ public class UserControllerTest extends TestControllerInit {
                         model().attributeErrorCount("user", 5),
                         model().attributeDoesNotExist("userjob"),
                         status().isOk(),
-                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp")
+                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp"),
+                        redirectedUrl(null)
                 );
+
         assertNotSame(userController.getRegisteredUser(), emptyUser);
     }
 
@@ -69,6 +72,7 @@ public class UserControllerTest extends TestControllerInit {
     public void registerUserWithWrongNamesTest() throws Exception {
         testUser.setName("wRonGnaMe");
         testUser.setSurname("Wr0ngsurname");
+
         mockMvc.perform(post("/register-step-2")
                         .flashAttr("user", testUser))
                 .andExpectAll(
@@ -77,14 +81,17 @@ public class UserControllerTest extends TestControllerInit {
                         model().attributeErrorCount("user", 2),
                         model().attributeDoesNotExist("userjob"),
                         status().isOk(),
-                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp")
+                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp"),
+                        redirectedUrl(null)
                 );
+
         assertNotSame(userController.getRegisteredUser(), testUser);
     }
 
     @Test
     public void registerUserWithWrongPassportTest() throws Exception {
         testUser.setPassword("wrongPassword");
+
         mockMvc.perform(post("/register-step-2")
                         .flashAttr("user", testUser))
                 .andExpectAll(
@@ -93,8 +100,10 @@ public class UserControllerTest extends TestControllerInit {
                         model().attributeErrorCount("user", 1),
                         model().attributeDoesNotExist("userjob"),
                         status().isOk(),
-                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp")
+                        forwardedUrl("/WEB-INF/view/unregistered/register-step-1.jsp"),
+                        redirectedUrl(null)
                 );
+
         assertNotSame(userController.getRegisteredUser(), testUser);
     }
 
@@ -108,14 +117,17 @@ public class UserControllerTest extends TestControllerInit {
                         model().attributeHasNoErrors("user"),
                         model().attributeExists("userjob"),
                         status().isOk(),
-                        forwardedUrl("/WEB-INF/view/unregistered/register-step-2.jsp")
+                        forwardedUrl("/WEB-INF/view/unregistered/register-step-2.jsp"),
+                        redirectedUrl(null)
                 );
+
         assertSame(userController.getRegisteredUser(), testUser);
     }
 
     @Test
     public void registerEmptyUserJobTest() throws Exception {
         UserJob emptyUserJob = new UserJob();
+
         mockMvc.perform(post("/register-step-3")
                         .flashAttr("userjob", emptyUserJob))
                 .andExpectAll(
@@ -124,8 +136,10 @@ public class UserControllerTest extends TestControllerInit {
                         model().attributeErrorCount("userjob", 2),
                         model().attributeDoesNotExist("userdetails"),
                         status().isOk(),
-                        forwardedUrl("/WEB-INF/view/unregistered/register-step-2.jsp")
+                        forwardedUrl("/WEB-INF/view/unregistered/register-step-2.jsp"),
+                        redirectedUrl(null)
                 );
+
         assertNotSame(userController.getRegisteredUser().getUserJob(), emptyUserJob);
     }
 
@@ -143,8 +157,9 @@ public class UserControllerTest extends TestControllerInit {
                         model().attributeHasNoErrors("userjob"),
                         model().attributeExists("userdetails"),
                         status().isOk(),
-                        forwardedUrl("/WEB-INF/view/unregistered/register-step-3.jsp")
-                );
+                        forwardedUrl("/WEB-INF/view/unregistered/register-step-3.jsp"),
+                        redirectedUrl(null));
+
         assertSame(userController.getRegisteredUser().getUserJob(), testUserJob);
     }
 

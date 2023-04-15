@@ -33,15 +33,14 @@ public class AdminServiceTest {
     public void setUp() {
         testUser = new User();
         testUser.setId(new Random().nextInt(100));
+
         testUsers = new ArrayList<>();
     }
 
     @Test
     public void getAllUsersTest() {
         // given
-        for (int i = 0; i < 5; i++) {
-            testUsers.add(new User());
-        }
+        for (int i = 0; i < 5; i++) testUsers.add(new User());
         when(userDao.getAllUsers()).thenReturn(testUsers);
         // when
         List<User> receivedUsers = adminService.getAllUsers();
@@ -70,9 +69,7 @@ public class AdminServiceTest {
     @Test
     public void deleteUserTest() {
         // given, when
-        for (int i = 1; i <= 10; i++) {
-            adminService.deleteUser(i);
-        }
+        for (int i = 1; i <= 10; i++) adminService.deleteUser(i);
         // then
         verify(userDao, times(10)).deleteUser(anyInt());
     }

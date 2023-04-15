@@ -131,9 +131,7 @@ public class UserServiceTest {
     @Test
     public void updateUserJobTest() {
         // given, when
-        for(int i = 0; i < 5; i++) {
-            userService.updateUserJob(new UserJob());
-        }
+        for(int i = 0; i < 5; i++) userService.updateUserJob(new UserJob());
         // then
         verify(userDao, times(5)).updateUserJob(any(UserJob.class));
     }
